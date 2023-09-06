@@ -9,16 +9,19 @@ const optionDB = {
 }
 
 module.exports = {
-    getListIndicadoresForm: async () => {
+    getListIndicadoresForm: async (idDependence = 0) => {
         const mysqlConnection = MysqlStore.createConnection(optionDB);
         try {
+            let where = idDependence == 0 ? "" : ` AND act.id_dependencia = ${idDependence} `;
             return await new Promise((resolve, reject) => {
                 mysqlConnection.query(`
                 SELECT 
                     eje.numero AS numeroEje, prog.numero AS numeroPrograma, dep.nombre AS nombreDependencia, dur.nombre AS nombreUnidadResponable, 
                     comp.numero AS numeroComponente , act.numero AS numeroActividad, 
-                    act.coordenada, act.descripcion, act.descripcion_opcional,
-                    nat.nombre AS tituloAgrupado , na.concepto AS indicador
+                    act.coordenada, act.descripcion, 
+                    if (act.descripcion_opcional is not null, act.descripcion_opcional, ' ') AS descripcion_opcional,
+                    if (nat.nombre is not null, nat.nombre, ' ' ) AS tituloAgrupado,
+                    na.concepto AS indicador
                 FROM noticia_administrativa_actividades AS naa
                 INNER JOIN actividades AS act ON (act.id = naa.id_actividades)
                 INNER JOIN noticia_administrativa AS na ON ( na.id  = naa.id_noticia_administrativa)
@@ -32,6 +35,7 @@ module.exports = {
                     AND naa.eliminado = 0
                     AND na.eliminado = 0
                     -- AND nat.eliminado = 0
+                    ${where}
                 order by dep.id
                
                `, (error, results, fields) => {
@@ -50,16 +54,19 @@ module.exports = {
             mysqlConnection.end();
         }
     },
-    getListIndicadoresActAccInd: async () => {
+    getListIndicadoresActAccInd: async (idDependence=0) => {
         const mysqlConnection = MysqlStore.createConnection(optionDB);
         try {
+            let where = idDependence == 0 ? "" : ` AND act.id_dependencia = ${idDependence} `;
             return await new Promise((resolve, reject) => {
                 mysqlConnection.query(`
                 SELECT 
                     eje.numero AS numeroEje, prog.numero AS numeroPrograma, dep.nombre AS nombreDependencia, dur.nombre AS nombreUnidadResponable, 
                     comp.numero AS numeroComponente , act.numero AS numeroActividad, 
-                    act.coordenada, act.descripcion, act.descripcion_opcional,
-                    nat.nombre AS tituloAgrupado, naaa.is_indicador_mensual, naaa.indicadores_numero_campos
+                    act.coordenada, act.descripcion, 
+                    if (act.descripcion_opcional is not null, act.descripcion_opcional, ' ') AS descripcion_opcional,
+                    if (nat.nombre is not null, nat.nombre, ' ' ) AS tituloAgrupado, 
+                    naaa.is_indicador_mensual, naaa.indicadores_numero_campos
                 FROM noticia_administrativa_actividades_acciones AS naaa
                     INNER JOIN actividades AS act ON (act.id = naaa.id_actividades)
                     LEFT JOIN noticia_administrativa_titulos AS nat ON ( naaa.id_noticia_administrativa_titulos = nat.id AND nat.eliminado = 0 )
@@ -70,6 +77,7 @@ module.exports = {
                     INNER JOIN componentes AS comp ON (comp.id = act.id_componente  and act.id)
                 WHERE act.eliminado = 0
                     AND naaa.eliminado = 0
+                    ${where}
                 order by dep.id
                
                `, (error, results, fields) => {

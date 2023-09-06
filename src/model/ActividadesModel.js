@@ -10,7 +10,7 @@ const optionDB = {
 
 
 module.exports = {
-    getListActividadesIndicadoresCampos: async () => {
+    getListActividadesIndicadoresCampos: async (idDepedence = 0) => {
         const mysqlConnection = MysqlStore.createConnection(optionDB);
         try {
             return await new Promise((resolve, reject) => {
