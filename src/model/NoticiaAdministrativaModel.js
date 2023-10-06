@@ -95,5 +95,35 @@ module.exports = {
             console.log("Estoy cerrando la conección a la base de datos");
             mysqlConnection.end();
         }
+    },
+    getListActDependence: async () => {
+        const mysqlConnection = MysqlStore.createConnection(optionDB);
+        try {
+            return await new Promise((resolve, reject) => {
+                mysqlConnection.query(`
+                SELECT  
+                    act.id as idAct, nat.id AS idNot, act.id_dependencia, act.id_unidad_responsable, 
+                    act.id_eje, act.id_programa,
+                    if(act.descripcion_opcional is not null, act.descripcion_opcional, act.descripcion) as descripcion, act.lineas_de_accion
+                FROM noticia_administrativa_actividades AS nat 
+                INNER JOIN actividades AS act ON (act.id = nat.id_actividades and act.eliminado = 0)
+                WHERE nat.eliminado = 0
+                ;
+
+               `, (error, results, fields) => {
+                    if (error) {
+                        reject(error)
+                    } else {
+                        resolve(results);
+                    }
+                })
+            }
+            )
+        } catch (error) {
+            console.log('%cActividadesModel.js line:6 error Actividades', 'color: #007acc;', error);
+        } finally {
+            console.log("Estoy cerrando la conección a la base de datos");
+            mysqlConnection.end();
+        }
     }
 }
