@@ -5,7 +5,9 @@ const optionDB = {
     host: generalConfig.HOST,
     user: generalConfig.USER_DB,
     password: generalConfig.USER_PSS_DB,
-    database: generalConfig.DATABASE
+    database: generalConfig.DATABASE,
+    port: generalConfig.PORT_DB
+
 }
 
 module.exports = {
@@ -16,7 +18,7 @@ module.exports = {
                 mysqlConnection.query(`
                 SELECT * 
                 FROM noticia_administrativa
-                WHERE concepto like '${concepto}%'
+                WHERE concepto = '${concepto}'
                 AND eliminado = 0 
                `, (error, results, fields) => {
                     if (error) {

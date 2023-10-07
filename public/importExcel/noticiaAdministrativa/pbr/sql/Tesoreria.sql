@@ -1,8 +1,9 @@
 
+#Audiencias
 INSERT INTO `595071_accionespue`.`noticia_administrativa_general` 
 (`id_noticia_administrativa`, `id_dependencia`, `id_unidad_responsable`, `lineas_accion`, `id_eje`, `id_programa`, `orden_concepto`, `is_noticia_administrativa_mes`, `noticia_administrativa_campos`, `is_decimal_acumulado`, `eliminado`) 
 SELECT 
-(SELECT id FROM 595071_accionespue.noticia_administrativa as na WHERE na.eliminado = 0 AND na.concepto = "Audiencias"  ORDER BY na.id LIMIT 1 ) AS id_noticia_administrativa, 
+345 AS id_noticia_administrativa, 
 dur.id_dependencia AS id_dependencia,
 dur.id AS id_unidad_responsable, 
 '[18]' AS lineas_accion,
@@ -16,14 +17,15 @@ dur.id AS id_unidad_responsable,
 FROM 595071_accionespue.dependencias_unidades_responsables AS dur
 WHERE dur.id_dependencia = 21
 AND dur.eliminado = 0
-AND dur.nombre ="OFICINA DE LA COORDINACIÓN DE LAS REGIDURÍAS" ;    
+AND dur.nombre ="OFICINA DE LA COORDINACIÓN DE LAS REGIDURÍAS" ;
 
 
 
+#Reuniones
 INSERT INTO `595071_accionespue`.`noticia_administrativa_general` 
 (`id_noticia_administrativa`, `id_dependencia`, `id_unidad_responsable`, `lineas_accion`, `id_eje`, `id_programa`, `orden_concepto`, `is_noticia_administrativa_mes`, `noticia_administrativa_campos`, `is_decimal_acumulado`, `eliminado`) 
 SELECT 
-(SELECT id FROM 595071_accionespue.noticia_administrativa as na WHERE na.eliminado = 0 AND na.concepto = "Reuniones"  ORDER BY na.id LIMIT 1 ) AS id_noticia_administrativa, 
+900 AS id_noticia_administrativa, 
 dur.id_dependencia AS id_dependencia,
 dur.id AS id_unidad_responsable, 
 '[18]' AS lineas_accion,
@@ -41,10 +43,11 @@ AND dur.nombre ="OFICINA DE LA COORDINACIÓN DE LAS REGIDURÍAS" ;
 
 
 
+#Eventos
 INSERT INTO `595071_accionespue`.`noticia_administrativa_general` 
 (`id_noticia_administrativa`, `id_dependencia`, `id_unidad_responsable`, `lineas_accion`, `id_eje`, `id_programa`, `orden_concepto`, `is_noticia_administrativa_mes`, `noticia_administrativa_campos`, `is_decimal_acumulado`, `eliminado`) 
 SELECT 
-(SELECT id FROM 595071_accionespue.noticia_administrativa as na WHERE na.eliminado = 0 AND na.concepto = "Eventos"  ORDER BY na.id LIMIT 1 ) AS id_noticia_administrativa, 
+901 AS id_noticia_administrativa, 
 dur.id_dependencia AS id_dependencia,
 dur.id AS id_unidad_responsable, 
 '[18]' AS lineas_accion,
@@ -62,10 +65,11 @@ AND dur.nombre ="OFICINA DE LA COORDINACIÓN DE LAS REGIDURÍAS" ;
 
 
 
+#Correspondencia Recibida
 INSERT INTO `595071_accionespue`.`noticia_administrativa_general` 
 (`id_noticia_administrativa`, `id_dependencia`, `id_unidad_responsable`, `lineas_accion`, `id_eje`, `id_programa`, `orden_concepto`, `is_noticia_administrativa_mes`, `noticia_administrativa_campos`, `is_decimal_acumulado`, `eliminado`) 
 SELECT 
-(SELECT id FROM 595071_accionespue.noticia_administrativa as na WHERE na.eliminado = 0 AND na.concepto = "Correspondencia Recibida"  ORDER BY na.id LIMIT 1 ) AS id_noticia_administrativa, 
+8 AS id_noticia_administrativa, 
 dur.id_dependencia AS id_dependencia,
 dur.id AS id_unidad_responsable, 
 '[18]' AS lineas_accion,
@@ -83,10 +87,11 @@ AND dur.nombre ="OFICINA DE LA COORDINACIÓN DE LAS REGIDURÍAS" ;
 
 
 
+#Correspondencia Enviada
 INSERT INTO `595071_accionespue`.`noticia_administrativa_general` 
 (`id_noticia_administrativa`, `id_dependencia`, `id_unidad_responsable`, `lineas_accion`, `id_eje`, `id_programa`, `orden_concepto`, `is_noticia_administrativa_mes`, `noticia_administrativa_campos`, `is_decimal_acumulado`, `eliminado`) 
 SELECT 
-(SELECT id FROM 595071_accionespue.noticia_administrativa as na WHERE na.eliminado = 0 AND na.concepto = "Correspondencia Enviada"  ORDER BY na.id LIMIT 1 ) AS id_noticia_administrativa, 
+9 AS id_noticia_administrativa, 
 dur.id_dependencia AS id_dependencia,
 dur.id AS id_unidad_responsable, 
 '[18]' AS lineas_accion,
@@ -104,10 +109,11 @@ AND dur.nombre ="OFICINA DE LA COORDINACIÓN DE LAS REGIDURÍAS" ;
 
 
 
+#Reuniones
 INSERT INTO `595071_accionespue`.`noticia_administrativa_general` 
 (`id_noticia_administrativa`, `id_dependencia`, `id_unidad_responsable`, `lineas_accion`, `id_eje`, `id_programa`, `orden_concepto`, `is_noticia_administrativa_mes`, `noticia_administrativa_campos`, `is_decimal_acumulado`, `eliminado`) 
 SELECT 
-(SELECT id FROM 595071_accionespue.noticia_administrativa as na WHERE na.eliminado = 0 AND na.concepto = "Reuniones"  ORDER BY na.id LIMIT 1 ) AS id_noticia_administrativa, 
+900 AS id_noticia_administrativa, 
 dur.id_dependencia AS id_dependencia,
 dur.id AS id_unidad_responsable, 
 '[18]' AS lineas_accion,
@@ -125,10 +131,11 @@ AND dur.nombre ="DIRECCIÓN OPERATIVA" ;
 
 
 
+#Correspondencia Enviada
 INSERT INTO `595071_accionespue`.`noticia_administrativa_general` 
 (`id_noticia_administrativa`, `id_dependencia`, `id_unidad_responsable`, `lineas_accion`, `id_eje`, `id_programa`, `orden_concepto`, `is_noticia_administrativa_mes`, `noticia_administrativa_campos`, `is_decimal_acumulado`, `eliminado`) 
 SELECT 
-(SELECT id FROM 595071_accionespue.noticia_administrativa as na WHERE na.eliminado = 0 AND na.concepto = "Correspondencia Enviada"  ORDER BY na.id LIMIT 1 ) AS id_noticia_administrativa, 
+9 AS id_noticia_administrativa, 
 dur.id_dependencia AS id_dependencia,
 dur.id AS id_unidad_responsable, 
 '[18]' AS lineas_accion,
@@ -146,10 +153,11 @@ AND dur.nombre ="DIRECCIÓN OPERATIVA" ;
 
 
 
+#Reuniones de Trabajo
 INSERT INTO `595071_accionespue`.`noticia_administrativa_general` 
 (`id_noticia_administrativa`, `id_dependencia`, `id_unidad_responsable`, `lineas_accion`, `id_eje`, `id_programa`, `orden_concepto`, `is_noticia_administrativa_mes`, `noticia_administrativa_campos`, `is_decimal_acumulado`, `eliminado`) 
 SELECT 
-(SELECT id FROM 595071_accionespue.noticia_administrativa as na WHERE na.eliminado = 0 AND na.concepto = "Reuniones de Trabajo"  ORDER BY na.id LIMIT 1 ) AS id_noticia_administrativa, 
+1 AS id_noticia_administrativa, 
 dur.id_dependencia AS id_dependencia,
 dur.id AS id_unidad_responsable, 
 '[18]' AS lineas_accion,
@@ -167,10 +175,11 @@ AND dur.nombre ="DIRECCIÓN OPERATIVA" ;
 
 
 
+#Entrevistas y Rueda de Prensa
 INSERT INTO `595071_accionespue`.`noticia_administrativa_general` 
 (`id_noticia_administrativa`, `id_dependencia`, `id_unidad_responsable`, `lineas_accion`, `id_eje`, `id_programa`, `orden_concepto`, `is_noticia_administrativa_mes`, `noticia_administrativa_campos`, `is_decimal_acumulado`, `eliminado`) 
 SELECT 
-(SELECT id FROM 595071_accionespue.noticia_administrativa as na WHERE na.eliminado = 0 AND na.concepto = "Entrevistas y Rueda de Prensa"  ORDER BY na.id LIMIT 1 ) AS id_noticia_administrativa, 
+902 AS id_noticia_administrativa, 
 dur.id_dependencia AS id_dependencia,
 dur.id AS id_unidad_responsable, 
 '[18]' AS lineas_accion,
@@ -188,10 +197,11 @@ AND dur.nombre ="UNIDAD JURÍDICA" ;
 
 
 
+#Correspondencia Recibida
 INSERT INTO `595071_accionespue`.`noticia_administrativa_general` 
 (`id_noticia_administrativa`, `id_dependencia`, `id_unidad_responsable`, `lineas_accion`, `id_eje`, `id_programa`, `orden_concepto`, `is_noticia_administrativa_mes`, `noticia_administrativa_campos`, `is_decimal_acumulado`, `eliminado`) 
 SELECT 
-(SELECT id FROM 595071_accionespue.noticia_administrativa as na WHERE na.eliminado = 0 AND na.concepto = "Correspondencia Recibida"  ORDER BY na.id LIMIT 1 ) AS id_noticia_administrativa, 
+8 AS id_noticia_administrativa, 
 dur.id_dependencia AS id_dependencia,
 dur.id AS id_unidad_responsable, 
 '[18]' AS lineas_accion,
@@ -209,10 +219,11 @@ AND dur.nombre ="UNIDAD JURÍDICA" ;
 
 
 
+#Correspondencia Enviada
 INSERT INTO `595071_accionespue`.`noticia_administrativa_general` 
 (`id_noticia_administrativa`, `id_dependencia`, `id_unidad_responsable`, `lineas_accion`, `id_eje`, `id_programa`, `orden_concepto`, `is_noticia_administrativa_mes`, `noticia_administrativa_campos`, `is_decimal_acumulado`, `eliminado`) 
 SELECT 
-(SELECT id FROM 595071_accionespue.noticia_administrativa as na WHERE na.eliminado = 0 AND na.concepto = "Correspondencia Enviada"  ORDER BY na.id LIMIT 1 ) AS id_noticia_administrativa, 
+9 AS id_noticia_administrativa, 
 dur.id_dependencia AS id_dependencia,
 dur.id AS id_unidad_responsable, 
 '[18]' AS lineas_accion,
@@ -230,10 +241,11 @@ AND dur.nombre ="UNIDAD JURÍDICA" ;
 
 
 
+#Solicitudes de Apoyo
 INSERT INTO `595071_accionespue`.`noticia_administrativa_general` 
 (`id_noticia_administrativa`, `id_dependencia`, `id_unidad_responsable`, `lineas_accion`, `id_eje`, `id_programa`, `orden_concepto`, `is_noticia_administrativa_mes`, `noticia_administrativa_campos`, `is_decimal_acumulado`, `eliminado`) 
 SELECT 
-(SELECT id FROM 595071_accionespue.noticia_administrativa as na WHERE na.eliminado = 0 AND na.concepto = "Solicitudes de Apoyo"  ORDER BY na.id LIMIT 1 ) AS id_noticia_administrativa, 
+903 AS id_noticia_administrativa, 
 dur.id_dependencia AS id_dependencia,
 dur.id AS id_unidad_responsable, 
 '[18]' AS lineas_accion,
@@ -251,10 +263,11 @@ AND dur.nombre ="UNIDAD JURÍDICA" ;
 
 
 
+#Correspondencia Recibida
 INSERT INTO `595071_accionespue`.`noticia_administrativa_general` 
 (`id_noticia_administrativa`, `id_dependencia`, `id_unidad_responsable`, `lineas_accion`, `id_eje`, `id_programa`, `orden_concepto`, `is_noticia_administrativa_mes`, `noticia_administrativa_campos`, `is_decimal_acumulado`, `eliminado`) 
 SELECT 
-(SELECT id FROM 595071_accionespue.noticia_administrativa as na WHERE na.eliminado = 0 AND na.concepto = "Correspondencia Recibida"  ORDER BY na.id LIMIT 1 ) AS id_noticia_administrativa, 
+8 AS id_noticia_administrativa, 
 dur.id_dependencia AS id_dependencia,
 dur.id AS id_unidad_responsable, 
 '[18]' AS lineas_accion,
@@ -272,10 +285,11 @@ AND dur.nombre ="UNIDAD JURÍDICA" ;
 
 
 
+#Correspondencia Enviada
 INSERT INTO `595071_accionespue`.`noticia_administrativa_general` 
 (`id_noticia_administrativa`, `id_dependencia`, `id_unidad_responsable`, `lineas_accion`, `id_eje`, `id_programa`, `orden_concepto`, `is_noticia_administrativa_mes`, `noticia_administrativa_campos`, `is_decimal_acumulado`, `eliminado`) 
 SELECT 
-(SELECT id FROM 595071_accionespue.noticia_administrativa as na WHERE na.eliminado = 0 AND na.concepto = "Correspondencia Enviada"  ORDER BY na.id LIMIT 1 ) AS id_noticia_administrativa, 
+9 AS id_noticia_administrativa, 
 dur.id_dependencia AS id_dependencia,
 dur.id AS id_unidad_responsable, 
 '[18]' AS lineas_accion,
@@ -293,10 +307,11 @@ AND dur.nombre ="UNIDAD JURÍDICA" ;
 
 
 
+#Reuniones de Trabajo
 INSERT INTO `595071_accionespue`.`noticia_administrativa_general` 
 (`id_noticia_administrativa`, `id_dependencia`, `id_unidad_responsable`, `lineas_accion`, `id_eje`, `id_programa`, `orden_concepto`, `is_noticia_administrativa_mes`, `noticia_administrativa_campos`, `is_decimal_acumulado`, `eliminado`) 
 SELECT 
-(SELECT id FROM 595071_accionespue.noticia_administrativa as na WHERE na.eliminado = 0 AND na.concepto = "Reuniones de Trabajo"  ORDER BY na.id LIMIT 1 ) AS id_noticia_administrativa, 
+1 AS id_noticia_administrativa, 
 dur.id_dependencia AS id_dependencia,
 dur.id AS id_unidad_responsable, 
 '[18]' AS lineas_accion,
@@ -314,10 +329,11 @@ AND dur.nombre ="UNIDAD DE COMUNICACIÓN SOCIAL" ;
 
 
 
+#Entrevistas y Rueda de Prensa
 INSERT INTO `595071_accionespue`.`noticia_administrativa_general` 
 (`id_noticia_administrativa`, `id_dependencia`, `id_unidad_responsable`, `lineas_accion`, `id_eje`, `id_programa`, `orden_concepto`, `is_noticia_administrativa_mes`, `noticia_administrativa_campos`, `is_decimal_acumulado`, `eliminado`) 
 SELECT 
-(SELECT id FROM 595071_accionespue.noticia_administrativa as na WHERE na.eliminado = 0 AND na.concepto = "Entrevistas y Rueda de Prensa"  ORDER BY na.id LIMIT 1 ) AS id_noticia_administrativa, 
+902 AS id_noticia_administrativa, 
 dur.id_dependencia AS id_dependencia,
 dur.id AS id_unidad_responsable, 
 '[18]' AS lineas_accion,
@@ -335,10 +351,11 @@ AND dur.nombre ="UNIDAD DE COMUNICACIÓN SOCIAL" ;
 
 
 
+#Correspondencia Recibida
 INSERT INTO `595071_accionespue`.`noticia_administrativa_general` 
 (`id_noticia_administrativa`, `id_dependencia`, `id_unidad_responsable`, `lineas_accion`, `id_eje`, `id_programa`, `orden_concepto`, `is_noticia_administrativa_mes`, `noticia_administrativa_campos`, `is_decimal_acumulado`, `eliminado`) 
 SELECT 
-(SELECT id FROM 595071_accionespue.noticia_administrativa as na WHERE na.eliminado = 0 AND na.concepto = "Correspondencia Recibida"  ORDER BY na.id LIMIT 1 ) AS id_noticia_administrativa, 
+8 AS id_noticia_administrativa, 
 dur.id_dependencia AS id_dependencia,
 dur.id AS id_unidad_responsable, 
 '[18]' AS lineas_accion,
@@ -356,10 +373,11 @@ AND dur.nombre ="UNIDAD DE COMUNICACIÓN SOCIAL" ;
 
 
 
+#Correspondencia Enviada
 INSERT INTO `595071_accionespue`.`noticia_administrativa_general` 
 (`id_noticia_administrativa`, `id_dependencia`, `id_unidad_responsable`, `lineas_accion`, `id_eje`, `id_programa`, `orden_concepto`, `is_noticia_administrativa_mes`, `noticia_administrativa_campos`, `is_decimal_acumulado`, `eliminado`) 
 SELECT 
-(SELECT id FROM 595071_accionespue.noticia_administrativa as na WHERE na.eliminado = 0 AND na.concepto = "Correspondencia Enviada"  ORDER BY na.id LIMIT 1 ) AS id_noticia_administrativa, 
+9 AS id_noticia_administrativa, 
 dur.id_dependencia AS id_dependencia,
 dur.id AS id_unidad_responsable, 
 '[18]' AS lineas_accion,
@@ -377,10 +395,11 @@ AND dur.nombre ="UNIDAD DE COMUNICACIÓN SOCIAL" ;
 
 
 
+#Solicitudes de Apoyo
 INSERT INTO `595071_accionespue`.`noticia_administrativa_general` 
 (`id_noticia_administrativa`, `id_dependencia`, `id_unidad_responsable`, `lineas_accion`, `id_eje`, `id_programa`, `orden_concepto`, `is_noticia_administrativa_mes`, `noticia_administrativa_campos`, `is_decimal_acumulado`, `eliminado`) 
 SELECT 
-(SELECT id FROM 595071_accionespue.noticia_administrativa as na WHERE na.eliminado = 0 AND na.concepto = "Solicitudes de Apoyo"  ORDER BY na.id LIMIT 1 ) AS id_noticia_administrativa, 
+903 AS id_noticia_administrativa, 
 dur.id_dependencia AS id_dependencia,
 dur.id AS id_unidad_responsable, 
 '[18]' AS lineas_accion,
@@ -398,10 +417,11 @@ AND dur.nombre ="COORDINACIÓN DE APOYO LOGÍSTICO" ;
 
 
 
+#Correspondencia Recibida
 INSERT INTO `595071_accionespue`.`noticia_administrativa_general` 
 (`id_noticia_administrativa`, `id_dependencia`, `id_unidad_responsable`, `lineas_accion`, `id_eje`, `id_programa`, `orden_concepto`, `is_noticia_administrativa_mes`, `noticia_administrativa_campos`, `is_decimal_acumulado`, `eliminado`) 
 SELECT 
-(SELECT id FROM 595071_accionespue.noticia_administrativa as na WHERE na.eliminado = 0 AND na.concepto = "Correspondencia Recibida"  ORDER BY na.id LIMIT 1 ) AS id_noticia_administrativa, 
+8 AS id_noticia_administrativa, 
 dur.id_dependencia AS id_dependencia,
 dur.id AS id_unidad_responsable, 
 '[18]' AS lineas_accion,
@@ -419,10 +439,11 @@ AND dur.nombre ="COORDINACIÓN DE APOYO LOGÍSTICO" ;
 
 
 
+#Correspondencia Enviada
 INSERT INTO `595071_accionespue`.`noticia_administrativa_general` 
 (`id_noticia_administrativa`, `id_dependencia`, `id_unidad_responsable`, `lineas_accion`, `id_eje`, `id_programa`, `orden_concepto`, `is_noticia_administrativa_mes`, `noticia_administrativa_campos`, `is_decimal_acumulado`, `eliminado`) 
 SELECT 
-(SELECT id FROM 595071_accionespue.noticia_administrativa as na WHERE na.eliminado = 0 AND na.concepto = "Correspondencia Enviada"  ORDER BY na.id LIMIT 1 ) AS id_noticia_administrativa, 
+9 AS id_noticia_administrativa, 
 dur.id_dependencia AS id_dependencia,
 dur.id AS id_unidad_responsable, 
 '[18]' AS lineas_accion,
@@ -440,10 +461,11 @@ AND dur.nombre ="COORDINACIÓN DE APOYO LOGÍSTICO" ;
 
 
 
+#Avisos de Apertura de Negocios
 INSERT INTO `595071_accionespue`.`noticia_administrativa_general` 
 (`id_noticia_administrativa`, `id_dependencia`, `id_unidad_responsable`, `lineas_accion`, `id_eje`, `id_programa`, `orden_concepto`, `is_noticia_administrativa_mes`, `noticia_administrativa_campos`, `is_decimal_acumulado`, `eliminado`) 
 SELECT 
-(SELECT id FROM 595071_accionespue.noticia_administrativa as na WHERE na.eliminado = 0 AND na.concepto = "Avisos de Apertura de Negocios"  ORDER BY na.id LIMIT 1 ) AS id_noticia_administrativa, 
+630 AS id_noticia_administrativa, 
 dur.id_dependencia AS id_dependencia,
 dur.id AS id_unidad_responsable, 
 '[1]' AS lineas_accion,
@@ -461,10 +483,11 @@ AND dur.nombre ="DIRECCION DE INGRESOS" ;
 
 
 
+#Fiscalización a Eventos y Espectáculos Públicos en el Municipio
 INSERT INTO `595071_accionespue`.`noticia_administrativa_general` 
 (`id_noticia_administrativa`, `id_dependencia`, `id_unidad_responsable`, `lineas_accion`, `id_eje`, `id_programa`, `orden_concepto`, `is_noticia_administrativa_mes`, `noticia_administrativa_campos`, `is_decimal_acumulado`, `eliminado`) 
 SELECT 
-(SELECT id FROM 595071_accionespue.noticia_administrativa as na WHERE na.eliminado = 0 AND na.concepto = "Fiscalización a Eventos y Espectáculos Públicos en el Municipio"  ORDER BY na.id LIMIT 1 ) AS id_noticia_administrativa, 
+904 AS id_noticia_administrativa, 
 dur.id_dependencia AS id_dependencia,
 dur.id AS id_unidad_responsable, 
 '[1]' AS lineas_accion,
@@ -482,10 +505,11 @@ AND dur.nombre ="COORDINACIÓN DE FISCALIZACION DE ESPECTACULOS PUBLICOS" ;
 
 
 
+#Bailes públicos
 INSERT INTO `595071_accionespue`.`noticia_administrativa_general` 
 (`id_noticia_administrativa`, `id_dependencia`, `id_unidad_responsable`, `lineas_accion`, `id_eje`, `id_programa`, `orden_concepto`, `is_noticia_administrativa_mes`, `noticia_administrativa_campos`, `is_decimal_acumulado`, `eliminado`) 
 SELECT 
-(SELECT id FROM 595071_accionespue.noticia_administrativa as na WHERE na.eliminado = 0 AND na.concepto = "Bailes públicos"  ORDER BY na.id LIMIT 1 ) AS id_noticia_administrativa, 
+905 AS id_noticia_administrativa, 
 dur.id_dependencia AS id_dependencia,
 dur.id AS id_unidad_responsable, 
 '[1]' AS lineas_accion,
@@ -503,10 +527,11 @@ AND dur.nombre ="COORDINACIÓN DE FISCALIZACION DE ESPECTACULOS PUBLICOS" ;
 
 
 
+#Rifas y sorteos
 INSERT INTO `595071_accionespue`.`noticia_administrativa_general` 
 (`id_noticia_administrativa`, `id_dependencia`, `id_unidad_responsable`, `lineas_accion`, `id_eje`, `id_programa`, `orden_concepto`, `is_noticia_administrativa_mes`, `noticia_administrativa_campos`, `is_decimal_acumulado`, `eliminado`) 
 SELECT 
-(SELECT id FROM 595071_accionespue.noticia_administrativa as na WHERE na.eliminado = 0 AND na.concepto = "Rifas y sorteos"  ORDER BY na.id LIMIT 1 ) AS id_noticia_administrativa, 
+641 AS id_noticia_administrativa, 
 dur.id_dependencia AS id_dependencia,
 dur.id AS id_unidad_responsable, 
 '[1]' AS lineas_accion,
@@ -524,10 +549,11 @@ AND dur.nombre ="COORDINACIÓN DE FISCALIZACION DE ESPECTACULOS PUBLICOS" ;
 
 
 
+#Órdenes de Visita emitidas por la Coordinación de Fiscalización de Mercados, Central e Industrial de Abasto
 INSERT INTO `595071_accionespue`.`noticia_administrativa_general` 
 (`id_noticia_administrativa`, `id_dependencia`, `id_unidad_responsable`, `lineas_accion`, `id_eje`, `id_programa`, `orden_concepto`, `is_noticia_administrativa_mes`, `noticia_administrativa_campos`, `is_decimal_acumulado`, `eliminado`) 
 SELECT 
-(SELECT id FROM 595071_accionespue.noticia_administrativa as na WHERE na.eliminado = 0 AND na.concepto = "Órdenes de Visita emitidas por la Coordinación de Fiscalización de Mercados, Central e Industrial de Abasto"  ORDER BY na.id LIMIT 1 ) AS id_noticia_administrativa, 
+655 AS id_noticia_administrativa, 
 dur.id_dependencia AS id_dependencia,
 dur.id AS id_unidad_responsable, 
 '[1]' AS lineas_accion,
@@ -545,10 +571,11 @@ AND dur.nombre ="COORDINACIÓN DE FISCALIZACION DE MERCADOS, CENTRAL E INDUSTRIA
 
 
 
+#Actas de Clausura
 INSERT INTO `595071_accionespue`.`noticia_administrativa_general` 
 (`id_noticia_administrativa`, `id_dependencia`, `id_unidad_responsable`, `lineas_accion`, `id_eje`, `id_programa`, `orden_concepto`, `is_noticia_administrativa_mes`, `noticia_administrativa_campos`, `is_decimal_acumulado`, `eliminado`) 
 SELECT 
-(SELECT id FROM 595071_accionespue.noticia_administrativa as na WHERE na.eliminado = 0 AND na.concepto = "Actas de Clausura"  ORDER BY na.id LIMIT 1 ) AS id_noticia_administrativa, 
+906 AS id_noticia_administrativa, 
 dur.id_dependencia AS id_dependencia,
 dur.id AS id_unidad_responsable, 
 '[1]' AS lineas_accion,
@@ -566,10 +593,11 @@ AND dur.nombre ="COORDINACIÓN DE FISCALIZACION DE MERCADOS, CENTRAL E INDUSTRIA
 
 
 
+#Acuerdos de Caducidades y/o Prescripción a contribuyentes para regulariar su situación fiscal e incrementar la recaudación
 INSERT INTO `595071_accionespue`.`noticia_administrativa_general` 
 (`id_noticia_administrativa`, `id_dependencia`, `id_unidad_responsable`, `lineas_accion`, `id_eje`, `id_programa`, `orden_concepto`, `is_noticia_administrativa_mes`, `noticia_administrativa_campos`, `is_decimal_acumulado`, `eliminado`) 
 SELECT 
-(SELECT id FROM 595071_accionespue.noticia_administrativa as na WHERE na.eliminado = 0 AND na.concepto = "Acuerdos de Caducidades y/o Prescripción a contribuyentes para regulariar su situación fiscal e incrementar la recaudación"  ORDER BY na.id LIMIT 1 ) AS id_noticia_administrativa, 
+907 AS id_noticia_administrativa, 
 dur.id_dependencia AS id_dependencia,
 dur.id AS id_unidad_responsable, 
 '[3]' AS lineas_accion,
@@ -587,10 +615,11 @@ AND dur.nombre ="DIRECCIÓN JURÍDICA" ;
 
 
 
+#Convenios de Pago en Parcialidades para Incentivar el Pago de Contribuciones
 INSERT INTO `595071_accionespue`.`noticia_administrativa_general` 
 (`id_noticia_administrativa`, `id_dependencia`, `id_unidad_responsable`, `lineas_accion`, `id_eje`, `id_programa`, `orden_concepto`, `is_noticia_administrativa_mes`, `noticia_administrativa_campos`, `is_decimal_acumulado`, `eliminado`) 
 SELECT 
-(SELECT id FROM 595071_accionespue.noticia_administrativa as na WHERE na.eliminado = 0 AND na.concepto = "Convenios de Pago en Parcialidades para Incentivar el Pago de Contribuciones"  ORDER BY na.id LIMIT 1 ) AS id_noticia_administrativa, 
+669 AS id_noticia_administrativa, 
 dur.id_dependencia AS id_dependencia,
 dur.id AS id_unidad_responsable, 
 '[3]' AS lineas_accion,
@@ -608,10 +637,11 @@ AND dur.nombre ="DIRECCIÓN JURÍDICA" ;
 
 
 
+#Actualización al Padrón Catastral mediante el Sistema Server Box (Módulo Cartográfico)
 INSERT INTO `595071_accionespue`.`noticia_administrativa_general` 
 (`id_noticia_administrativa`, `id_dependencia`, `id_unidad_responsable`, `lineas_accion`, `id_eje`, `id_programa`, `orden_concepto`, `is_noticia_administrativa_mes`, `noticia_administrativa_campos`, `is_decimal_acumulado`, `eliminado`) 
 SELECT 
-(SELECT id FROM 595071_accionespue.noticia_administrativa as na WHERE na.eliminado = 0 AND na.concepto = "Actualización al Padrón Catastral mediante el Sistema Server Box (Módulo Cartográfico)"  ORDER BY na.id LIMIT 1 ) AS id_noticia_administrativa, 
+605 AS id_noticia_administrativa, 
 dur.id_dependencia AS id_dependencia,
 dur.id AS id_unidad_responsable, 
 '[1]' AS lineas_accion,
@@ -629,10 +659,11 @@ AND dur.nombre ="DIRECCIÓN DE CATASTRO" ;
 
 
 
+#Claves Catastrales asignadas
 INSERT INTO `595071_accionespue`.`noticia_administrativa_general` 
 (`id_noticia_administrativa`, `id_dependencia`, `id_unidad_responsable`, `lineas_accion`, `id_eje`, `id_programa`, `orden_concepto`, `is_noticia_administrativa_mes`, `noticia_administrativa_campos`, `is_decimal_acumulado`, `eliminado`) 
 SELECT 
-(SELECT id FROM 595071_accionespue.noticia_administrativa as na WHERE na.eliminado = 0 AND na.concepto = "Claves Catastrales asignadas"  ORDER BY na.id LIMIT 1 ) AS id_noticia_administrativa, 
+606 AS id_noticia_administrativa, 
 dur.id_dependencia AS id_dependencia,
 dur.id AS id_unidad_responsable, 
 '[1]' AS lineas_accion,
@@ -649,10 +680,11 @@ AND dur.eliminado = 0
 AND dur.nombre ="DIRECCIÓN DE CATASTRO" ;
 
 
+#Altas de cuentas prediales
 INSERT INTO `595071_accionespue`.`noticia_administrativa_general` 
 (`id_noticia_administrativa`, `id_dependencia`, `id_unidad_responsable`, `lineas_accion`, `id_eje`, `id_programa`, `orden_concepto`, `is_noticia_administrativa_mes`, `noticia_administrativa_campos`, `is_decimal_acumulado`, `eliminado`) 
 SELECT 
-(SELECT id FROM 595071_accionespue.noticia_administrativa as na WHERE na.eliminado = 0 AND na.concepto = "Altas de cuentas prediales"  ORDER BY na.id LIMIT 1 ) AS id_noticia_administrativa, 
+607 AS id_noticia_administrativa, 
 dur.id_dependencia AS id_dependencia,
 dur.id AS id_unidad_responsable, 
 '[1]' AS lineas_accion,
@@ -670,10 +702,11 @@ AND dur.nombre ="DIRECCIÓN DE CATASTRO" ;
 
 
 
+#Expedición de Registros Catastrales
 INSERT INTO `595071_accionespue`.`noticia_administrativa_general` 
 (`id_noticia_administrativa`, `id_dependencia`, `id_unidad_responsable`, `lineas_accion`, `id_eje`, `id_programa`, `orden_concepto`, `is_noticia_administrativa_mes`, `noticia_administrativa_campos`, `is_decimal_acumulado`, `eliminado`) 
 SELECT 
-(SELECT id FROM 595071_accionespue.noticia_administrativa as na WHERE na.eliminado = 0 AND na.concepto = "Expedición de Registros Catastrales"  ORDER BY na.id LIMIT 1 ) AS id_noticia_administrativa, 
+608 AS id_noticia_administrativa, 
 dur.id_dependencia AS id_dependencia,
 dur.id AS id_unidad_responsable, 
 '[1]' AS lineas_accion,
@@ -688,6 +721,5 @@ FROM 595071_accionespue.dependencias_unidades_responsables AS dur
 WHERE dur.id_dependencia = 21
 AND dur.eliminado = 0
 AND dur.nombre ="DIRECCIÓN DE CATASTRO" ;
-                        
 
-                        
+

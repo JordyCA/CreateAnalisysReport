@@ -8,7 +8,8 @@ const ConceptoModel = require('../model/ConceptosModel');
 module.exports = {
     getNewIndicators : (request, response) => {
         try {
-            const excelData = Utils.getDataExcel('./public/excelReports/noticiaAdministrativa/nuevos/NOTICIA ADMINISTRATIVA.xlsx');
+            const nombre = "TESORERIA";
+            const excelData = Utils.getDataExcel(`./public/excelReports/noticiaAdministrativa/nuevos/NOTICIA_ADMINISTRATIVA_${nombre}.xlsx`);
             const getData = async () => {
 
                 let maxValue = await ConceptoModel.getMaxId();
@@ -16,26 +17,31 @@ module.exports = {
                 maxValue = parseInt(maxValue[0]?.max) + 1;
 
                 let sqlText = "";
-
+                let arryTemp = [];
+                
                 for (let i = 0; i < excelData.length; i++){
                     let data = excelData[i];
-                    let valConDB = await ConceptoModel.getLikeConcepto(Utils.quitarEspacios(data.concepto));
-                    Promise.all([valConDB]);
-                    // console.log(valConDB);
-                    // if (
-                    //     data?.dependencia == "Instituto Municipal de Arte y Cultura de Puebla" &&
-                    //     data?.origen_pbr == "NO"
-                    // ) {
-                        if (valConDB.length == 0) {
+                    if (data.concepto) {
+                        let valConDB = await ConceptoModel.getLikeConcepto(Utils.quitarEspacios(data.concepto));
+                        Promise.all([valConDB]);
+                        let isExist = false;
+                        for (let l = 0; l < arryTemp.length ; l++){
+                            const conpTemp = Utils.quitarEspacios(arryTemp[l].concepto);
+                            if (Utils.quitarEspacios(data.concepto) == conpTemp ) {
+                                isExist = true;
+                            }
+                        }
+    
+                        if (valConDB.length == 0 && !isExist) {
+                            arryTemp.push(data);
                             sqlText += " INSERT INTO `595071_accionespue`.`noticia_administrativa` (`id`, `concepto`, `eliminado`) \n";
                             sqlText += `  VALUES ('${maxValue}', '${data.concepto}', '0');  \n`; 
                             maxValue++;
                         }
-                    // }
-                   
+                    }
                 };
-
-                Utils.guardarArchivos('public/importExcel/concepto/sql/tesoreria.sql', sqlText);
+                
+                Utils.guardarArchivos(`public/importExcel/concepto/sql/${nombre}.sql`, sqlText);
 
                 return response.status(202).json({ data: excelData });
             }

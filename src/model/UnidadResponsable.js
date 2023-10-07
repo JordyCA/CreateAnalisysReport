@@ -5,7 +5,8 @@ const optionDB = {
     host: generalConfig.HOST,
     user: generalConfig.USER_DB,
     password: generalConfig.USER_PSS_DB,
-    database: generalConfig.DATABASE
+    database: generalConfig.DATABASE,
+    port: generalConfig.PORT_DB
 }
 
 module.exports = {

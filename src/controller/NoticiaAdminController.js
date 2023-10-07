@@ -8,9 +8,12 @@ const Utils = require('../util/Utils');
 module.exports = {
     createNewActivityIndicators: (request, response) => {
         try {
-            const excelData = Utils.getDataExcel('./public/excelReports/noticiaAdministrativa/nuevos/NOTICIA ADMINISTRATIVA.xlsx');
-            const getData = () => {
+            const nameFile = "TESORERIA";
+
+            const excelData = Utils.getDataExcel(`./public/excelReports/noticiaAdministrativa/nuevos/NOTICIA_ADMINISTRATIVA_${nameFile}.xlsx`);
+            const getData = async () => {
                 let query = "";
+                let warningQuery = "";
                 for (let i = 0; i < excelData.length; i++) {
                     const data = excelData[i];
                     let eje = data?.num_eje ? data?.num_eje : 0;
@@ -29,6 +32,7 @@ module.exports = {
                         linAcc = linAcc.replaceAll(" ", "");
                         linAcc = `[${linAcc}]`;
                     }
+
                     // if (
                     //     data?.origen_pbr == "SI"
                     // ) {
@@ -54,30 +58,60 @@ module.exports = {
                     if (
                         data?.origen_pbr == "NO"
                     ) {
-                        query += `
-                        INSERT INTO \`595071_accionespue\`.\`noticia_administrativa_general\` 
-                        (\`id_noticia_administrativa\`, \`id_dependencia\`, \`id_unidad_responsable\`, \`lineas_accion\`, \`id_eje\`, \`id_programa\`, \`orden_concepto\`, \`is_noticia_administrativa_mes\`, \`noticia_administrativa_campos\`, \`is_decimal_acumulado\`, \`eliminado\`) 
-                        SELECT 
-                        (SELECT id FROM 595071_accionespue.noticia_administrativa as na WHERE na.eliminado = 0 AND na.concepto = "${concepto}"  ORDER BY na.id LIMIT 1 ) AS id_noticia_administrativa, 
-                        dur.id_dependencia AS id_dependencia,
-                        dur.id AS id_unidad_responsable, 
-                        '${linAcc}' AS lineas_accion,
-                        ${eje} AS id_eje,
-                        ( SELECT id FROM 595071_accionespue.programas WHERE programas.numero =  ${numProg} ) AS id_programa, 
-                        ${consecutivo} AS orden_concepto,
-                        0 AS is_noticia_administrativa_mes, 
-                        '[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36]' AS noticia_administrativa_campos,
-                        0 AS is_decimal_acumulado,
-                        0 AS eliminado
-                        FROM 595071_accionespue.dependencias_unidades_responsables AS dur
-                        WHERE dur.id_dependencia = ${idDep}
-                        AND dur.eliminado = 0
-                        AND dur.nombre ="${unidadResp}" ;
-                        \n
-                        `;
-
+                        const dataNotAdminDB = await NotAdmModel.getRowByName(concepto);
+                        Promise.all(dataNotAdminDB);
+                        console.log(dataNotAdminDB);
+                        if (dataNotAdminDB && dataNotAdminDB.length > 0 ) {
+                            query += `
+                            #${concepto}
+                                INSERT INTO \`595071_accionespue\`.\`noticia_administrativa_general\` 
+                                (\`id_noticia_administrativa\`, \`id_dependencia\`, \`id_unidad_responsable\`, \`lineas_accion\`, \`id_eje\`, \`id_programa\`, \`orden_concepto\`, \`is_noticia_administrativa_mes\`, \`noticia_administrativa_campos\`, \`is_decimal_acumulado\`, \`eliminado\`) 
+                                SELECT 
+                                ${ dataNotAdminDB[0].id } AS id_noticia_administrativa, 
+                                dur.id_dependencia AS id_dependencia,
+                                dur.id AS id_unidad_responsable, 
+                                '${linAcc}' AS lineas_accion,
+                                ${eje} AS id_eje,
+                                ( SELECT id FROM 595071_accionespue.programas WHERE programas.numero =  ${numProg} ) AS id_programa, 
+                                ${consecutivo} AS orden_concepto,
+                                0 AS is_noticia_administrativa_mes, 
+                                '[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36]' AS noticia_administrativa_campos,
+                                0 AS is_decimal_acumulado,
+                                0 AS eliminado
+                                FROM 595071_accionespue.dependencias_unidades_responsables AS dur
+                                WHERE dur.id_dependencia = ${idDep}
+                                AND dur.eliminado = 0
+                                AND dur.nombre ="${unidadResp}" ;
+                                \n
+                                `;
+                        } else {
+                            warningQuery += `
+                            # No se encontro -  ${concepto}
+                            INSERT INTO \`595071_accionespue\`.\`noticia_administrativa_general\` 
+                            (\`id_noticia_administrativa\`, \`id_dependencia\`, \`id_unidad_responsable\`, \`lineas_accion\`, \`id_eje\`, \`id_programa\`, \`orden_concepto\`, \`is_noticia_administrativa_mes\`, \`noticia_administrativa_campos\`, \`is_decimal_acumulado\`, \`eliminado\`) 
+                            SELECT 
+                            ${ dataNotAdminDB[0].id } AS id_noticia_administrativa, 
+                            dur.id_dependencia AS id_dependencia,
+                            dur.id AS id_unidad_responsable, 
+                            '${linAcc}' AS lineas_accion,
+                            ${eje} AS id_eje,
+                            ( SELECT id FROM 595071_accionespue.programas WHERE programas.numero =  ${numProg} ) AS id_programa, 
+                            ${consecutivo} AS orden_concepto,
+                            0 AS is_noticia_administrativa_mes, 
+                            '[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36]' AS noticia_administrativa_campos,
+                            0 AS is_decimal_acumulado,
+                            0 AS eliminado
+                            FROM 595071_accionespue.dependencias_unidades_responsables AS dur
+                            WHERE dur.id_dependencia = ${idDep}
+                            AND dur.eliminado = 0
+                            AND dur.nombre ="${unidadResp}" ;
+                            \n
+                            `; 
+                        }
                     }
-                    Utils.guardarArchivos('public/importExcel/noticiaAdministrativa/pbr/sql/Tesoreria.sql', query);
+
+                    Utils.guardarArchivos(`public/importExcel/noticiaAdministrativa/pbr/sql/${nameFile}.sql`, query);
+                    Utils.guardarArchivos(`public/importExcel/noticiaAdministrativa/pbr/sql/${nameFile}Warning.sql`, warningQuery);
 
                 }
                 return response.status(202).json({ data: excelData });
