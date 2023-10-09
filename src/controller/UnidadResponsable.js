@@ -8,7 +8,8 @@ const Utils = require('../util/Utils');
 module.exports = {
     addNews : (request, response) => {
         try {
-            const excelData = Utils.getDataExcel('./public/excelReports/noticiaAdministrativa/nuevos/NOTICIA ADMINISTRATIVA.xlsx');
+            let nameFile = "SERVICIOSPUBLICO";
+            const excelData = Utils.getDataExcel(`./public/excelReports/noticiaAdministrativa/nuevos/NOTICIA_ADMINISTRATIVA_${nameFile}.xlsx`);
             let sql = "";
             const getData = async () => {
                 const dataTemp = [];
@@ -33,7 +34,7 @@ module.exports = {
                     }
                 }
 
-                Utils.guardarArchivos('public/importExcel/unidadResponsable/new/sql/tesoreria.sql', sql);
+                Utils.guardarArchivos(`public/importExcel/unidadResponsable/new/sql/${nameFile}.sql`, sql);
                 return response.status(202).json({ data: excelData });
             }
 

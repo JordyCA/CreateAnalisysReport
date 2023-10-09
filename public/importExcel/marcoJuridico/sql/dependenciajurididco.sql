@@ -113,3 +113,11 @@ INSERT INTO `595071_accionespue`.`dependencias_marco_juridico`
 VALUES ('13', 'Con fundamento en lo establecido por el artículo 11 fracciones VII, XVI y XVIII del Reglamento Interior de la Secretaría de Medio Ambiente del Honorable Ayuntamiento del Municipio de Puebla y, en atención a la circular identificada con el [numDocument], mediante la cual se informa sobre el calendario con las fechas correspondientes a la entrega de la Noticia Administrativa del año [year], a la Dependencia a su digno cargo, se hace de su conocimiento lo siguiente:
 
 &nbsp;Se anexa al presente el informe correspondiente a la Noticia Administrativa de esta Secretaría, correspondiente al mes de [monthYear].', '“Mira de cerca al presente que estás construyendo, porque debe parecerse al futuro con el que sueñas”. Norma Palafox. “Se testigo de un gran evento, Torneo Mundial de Fútbol 7 en Puebla.”', '0'); 
+INSERT INTO `595071_accionespue`.`dependencias_marco_juridico` 
+(`id_dependencia`, `concepto_juridico`, `titulo_frase`, `eliminado`) 
+VALUES ('0', '', '[numDocument] =  NÚM. SA-030/2023
+[completeDate] =  02 de enero de 2023
+[semiDate] =  02 de enero
+[year] =  2023
+[monthYear] =  JULIO del 2023
+[month] = JULIO', '0'); 

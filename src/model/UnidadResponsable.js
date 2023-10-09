@@ -19,7 +19,9 @@ module.exports = {
                     FROM dependencias_unidades_responsables
                     where id_dependencia=${idDependencia}
                     and eliminado = 0 
-                    and nombre like "%${nombreDescripcion}%";
+                    #and nombre like "%${nombreDescripcion}%"
+                    and nombre = "${nombreDescripcion}"
+                    ;
                `, (error, results, fields) => {
                     if (error) {
                         reject(error)

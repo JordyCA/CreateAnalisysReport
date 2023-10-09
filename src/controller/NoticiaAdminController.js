@@ -8,7 +8,7 @@ const Utils = require('../util/Utils');
 module.exports = {
     createNewActivityIndicators: (request, response) => {
         try {
-            const nameFile = "TESORERIA";
+            const nameFile = "SERVICIOSPUBLICO";
 
             const excelData = Utils.getDataExcel(`./public/excelReports/noticiaAdministrativa/nuevos/NOTICIA_ADMINISTRATIVA_${nameFile}.xlsx`);
             const getData = async () => {
