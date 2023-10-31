@@ -8,7 +8,7 @@ const ConceptoModel = require('../model/ConceptosModel');
 module.exports = {
     getNewIndicators : (request, response) => {
         try {
-            const nombre = "SERVICIOSPUBLICO";
+            const nombre = "AYUNTAMIENTO";
             const excelData = Utils.getDataExcel(`./public/excelReports/noticiaAdministrativa/nuevos/NOTICIA_ADMINISTRATIVA_${nombre}.xlsx`);
             const getData = async () => {
 
