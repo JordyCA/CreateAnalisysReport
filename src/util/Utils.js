@@ -5,11 +5,13 @@ const XLSX = require('xlsx');
 
 module.exports = {
     quitarEspacios: (datos) => {
+        datos = datos ? datos : "";
         let concepto = datos.split(' ');
         let nuevoDato = "";
         for (let i = 0; i < concepto.length; i++) {
             if (concepto[i] != '') {
                 let temp = concepto[i].replaceAll('\n', '');
+                temp = temp.replaceAll('\r', '');
                 nuevoDato += nuevoDato == "" ? temp : ` ${temp}`;
             }
         }

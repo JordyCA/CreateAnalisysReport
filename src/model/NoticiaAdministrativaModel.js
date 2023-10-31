@@ -5,7 +5,8 @@ const optionDB = {
     host: generalConfig.HOST,
     user: generalConfig.USER_DB,
     password: generalConfig.USER_PSS_DB,
-    database: generalConfig.DATABASE
+    database: generalConfig.DATABASE,
+    port: generalConfig.PORT_DB
 }
 
 module.exports = {
@@ -80,6 +81,100 @@ module.exports = {
                     ${where}
                 order by dep.id
                
+               `, (error, results, fields) => {
+                    if (error) {
+                        reject(error)
+                    } else {
+                        resolve(results);
+                    }
+                })
+            }
+            )
+        } catch (error) {
+            console.log('%cActividadesModel.js line:6 error Actividades', 'color: #007acc;', error);
+        } finally {
+            console.log("Estoy cerrando la conección a la base de datos");
+            mysqlConnection.end();
+        }
+    },
+    getListActDependence: async () => {
+        const mysqlConnection = MysqlStore.createConnection(optionDB);
+        try {
+            return await new Promise((resolve, reject) => {
+                mysqlConnection.query(`
+                SELECT  
+                    act.id as idAct, nat.id AS idNot, act.id_dependencia, act.id_unidad_responsable, 
+                    act.id_eje, act.id_programa,
+                    if(act.descripcion_opcional is not null, act.descripcion_opcional, act.descripcion) as descripcion, act.lineas_de_accion
+                FROM noticia_administrativa_actividades AS nat 
+                INNER JOIN actividades AS act ON (act.id = nat.id_actividades and act.eliminado = 0)
+                WHERE nat.eliminado = 0
+                ;
+
+               `, (error, results, fields) => {
+                    if (error) {
+                        reject(error)
+                    } else {
+                        resolve(results);
+                    }
+                })
+            }
+            )
+        } catch (error) {
+            console.log('%cActividadesModel.js line:6 error Actividades', 'color: #007acc;', error);
+        } finally {
+            console.log("Estoy cerrando la conección a la base de datos");
+            mysqlConnection.end();
+        }
+    },
+    getRowByName: async ( name = "") => {
+        const mysqlConnection = MysqlStore.createConnection(optionDB);
+        try {
+            return await new Promise((resolve, reject) => {
+                mysqlConnection.query(`
+                SELECT  
+                    na.id
+                FROM noticia_administrativa AS na 
+                WHERE na.eliminado = 0
+                AND  na.concepto = '${name}'
+                ORDER BY na.id 
+                LIMIT 1 
+                ;
+
+               `, (error, results, fields) => {
+                    if (error) {
+                        reject(error)
+                    } else {
+                        resolve(results);
+                    }
+                })
+            }
+            )
+        } catch (error) {
+            console.log('%cActividadesModel.js line:6 error Actividades', 'color: #007acc;', error);
+        } finally {
+            console.log("Estoy cerrando la conección a la base de datos");
+            mysqlConnection.end();
+        }
+    },
+    getValidateRow: async (idDependencia = 0, idEje = 0, idPrograma = 0, nombre = "", concepto = "") => {
+        const mysqlConnection = MysqlStore.createConnection(optionDB);
+        try {
+            return await new Promise((resolve, reject) => {
+                mysqlConnection.query(`
+                    SELECT 
+                        nag.id as nagId, nag.id_eje, nag.id_eje, dur.nombre, na.concepto, nar.id
+                    FROM  noticia_administrativa_general as nag
+                        INNER JOIN dependencias_unidades_responsables as dur ON (dur.id_dependencia = nag.id_dependencia and dur.eliminado=0)
+                        INNER JOIN noticia_administrativa AS na ON (na.id = nag.id_noticia_administrativa and na.eliminado=0)
+                        LEFT JOIN noticia_administrativa_resultado AS nar ON (nar.id_noticia_administrativa_general = nag.id)
+                    WHERE nag.eliminado = 0 
+                        AND nag.id_dependencia = ${idDependencia}
+                        AND nag.id_eje = ${idEje}
+                        AND nag.id_programa = ${idPrograma}
+                        AND dur.nombre = '${nombre}'
+                        AND na.concepto = '${concepto}'
+                    ;
                `, (error, results, fields) => {
                     if (error) {
                         reject(error)

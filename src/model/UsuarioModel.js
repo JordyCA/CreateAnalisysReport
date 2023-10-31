@@ -7,20 +7,19 @@ const optionDB = {
     password: generalConfig.USER_PSS_DB,
     database: generalConfig.DATABASE,
     port: generalConfig.PORT_DB
-
 }
 
-module.exports = {
-    getListCampos: async () => {
+module.exports = { 
+    getInfo: async (nombreUsuario = "") => {
         const mysqlConnection = MysqlStore.createConnection(optionDB);
         try {
             return await new Promise((resolve, reject) => {
                 mysqlConnection.query(`
-                SELECT 
-                    numero, nombre, tipo, descripcion
-                FROM campos
-                WHERE eliminado = 0
-                AND tipo IN ('double', 'int')
+                    SELECT 
+                        * 
+                    FROM usuarios as usr
+                    WHERE usr.eliminado = 0 
+                        AND usr.usuario = "${nombreUsuario}"
                `, (error, results, fields) => {
                     if (error) {
                         reject(error)
@@ -31,7 +30,7 @@ module.exports = {
             }
             )
         } catch (error) {
-            console.log('%cActividadesModel.js line:6 error Actividades', 'color: #007acc;', error);
+            console.log(error);
         } finally {
             console.log("Estoy cerrando la conección a la base de datos");
             mysqlConnection.end();

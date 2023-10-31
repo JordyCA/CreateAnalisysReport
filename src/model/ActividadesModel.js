@@ -5,11 +5,48 @@ const optionDB = {
     host: generalConfig.HOST,
     user: generalConfig.USER_DB,
     password: generalConfig.USER_PSS_DB,
-    database: generalConfig.DATABASE
+    database: generalConfig.DATABASE,
+    port: generalConfig.PORT_DB
+
 }
 
 
 module.exports = {
+    getRow : async (
+        idEje = 0, 
+        idPrograma = 0,
+        idComponente = 0, 
+        numero = 0
+    ) => {
+        const mysqlConnection = MysqlStore.createConnection(optionDB);
+        try {
+            return await new Promise((resolve, reject) => {
+                mysqlConnection.query(`
+                SELECT
+                    id
+                FROM actividades as act
+                WHERE act.eliminado = 0
+                    AND act.id_eje = ${idEje}
+                    AND act.id_programa = ${idPrograma}
+                    AND act.numero = ${numero}
+                    AND act.id_componente = ${idComponente}
+                    ;
+               `, (error, results, fields) => {
+                    if (error) {
+                        reject(error)
+                    } else {
+                        resolve(results);
+                    }
+                })
+            }
+            )
+        } catch (error) {
+            console.log('%cActividadesModel.js line:6 error Actividades', 'color: #007acc;', error);
+        } finally {
+            console.log("Estoy cerrando la conección a la base de datos");
+            mysqlConnection.end();
+        }
+    },
     getListActividadesIndicadoresCampos: async (idDepedence = 0) => {
         const mysqlConnection = MysqlStore.createConnection(optionDB);
         try {
