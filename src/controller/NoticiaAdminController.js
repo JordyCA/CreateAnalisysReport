@@ -10,7 +10,7 @@ const Utils = require('../util/Utils');
 module.exports = {
     createNewActivityIndicators: (request, response) => {
         try {
-            const nameFile = "AYUNTAMIENTO";
+            const nameFile = "SERVICIOS";
 
             const excelData = Utils.getDataExcel(`./public/excelReports/noticiaAdministrativa/nuevos/NOTICIA_ADMINISTRATIVA_${nameFile}.xlsx`);
             const getData = async () => {
@@ -74,8 +74,8 @@ module.exports = {
                                     INSERT INTO \`595071_accionespue\`.\`noticia_administrativa_conceptos_pbr\` 
                                     (\`id_actividades\`, \`id_noticia_administrativa\`, \`id_dependencia\`, \`id_unidad_responsable\`, \`id_eje\`, \`id_programa\`, \`lineas_accion\`, \`orden_concepto\`, \`is_indicador_mensual\`) 
                                     SELECT
-                                        ${idActividad[0].id} AS id_actividades, 
-                                        ${dataNotAdminDB[0].id} AS id_noticia_administrativa, 
+                                        ${idActividad[0]?.id} AS id_actividades, 
+                                        ${dataNotAdminDB[0]?.id} AS id_noticia_administrativa, 
                                         dur.id_dependencia AS id_dependencia,
                                         dur.id AS id_unidad_responsable, 
                                         ${eje} AS id_eje,
@@ -167,7 +167,9 @@ module.exports = {
                     }
 
                     Utils.guardarArchivos(`public/importExcel/noticiaAdministrativa/pbr/sql/${nameFile}.sql`, query);
-                    Utils.guardarArchivos(`public/importExcel/noticiaAdministrativa/pbr/sql/${nameFile}Warning.sql`, warningQuery);
+                    if (warningQuery !== "") {
+                        Utils.guardarArchivos(`public/importExcel/noticiaAdministrativa/pbr/sql/${nameFile}Warning.sql`, warningQuery);
+                    }
 
                 }
                 return response.status(202).json({ data: excelData });
