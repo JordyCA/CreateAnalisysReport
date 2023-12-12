@@ -8,7 +8,7 @@ const Utils = require('../util/Utils');
 module.exports = {
     addNews: (request, response) => {
         try {
-            let nameFile = "AYUNTAMIENTO";
+            let nameFile = "SERVICIOS";
             const excelData = Utils.getDataExcel(`./public/excelReports/noticiaAdministrativa/nuevos/NOTICIA_ADMINISTRATIVA_${nameFile}.xlsx`);
             let sql = "";
             const getData = async () => {

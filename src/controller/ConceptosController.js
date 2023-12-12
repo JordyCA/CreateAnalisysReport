@@ -48,7 +48,7 @@ module.exports = {
         
             getData();
         } catch (error) {
-            
+            console.log(error);
         }
 
     }
