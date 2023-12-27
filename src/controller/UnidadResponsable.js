@@ -8,7 +8,7 @@ const Utils = require('../util/Utils');
 module.exports = {
     addNews: (request, response) => {
         try {
-            let nameFile = "SERVICIOS";
+            let nameFile = "GOBERNACION";
             const excelData = Utils.getDataExcel(`./public/excelReports/noticiaAdministrativa/nuevos/NOTICIA_ADMINISTRATIVA_${nameFile}.xlsx`);
             let sql = "";
             const getData = async () => {
@@ -28,7 +28,7 @@ module.exports = {
                         const uniDataRes = await UniResModel.getUnidadResponsableBYdescription(temp.dependencia, Utils.quitarEspacios(temp.unidad_responsable));
                         Promise.all(uniDataRes);
                         console.log(uniDataRes);
-                        if (uniDataRes.length === 0) {
+                        if (uniDataRes && uniDataRes.length === 0) {
                             sql += "INSERT INTO `595071_accionespue`.`dependencias_unidades_responsables` (`id_dependencia`, `nombre`, `orden_noticia_administrativa`, `fecha_alta`, `fecha_actualizacion`, `fecha_eliminacion`, `eliminado`) \n";
                             sql += `VALUES ('${temp.dependencia}', '${Utils.quitarEspacios(temp.unidad_responsable)}', '${y}', '0', '0', '0', '0'); \n`;
                         }
