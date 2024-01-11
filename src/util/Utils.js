@@ -39,20 +39,30 @@ module.exports = {
         return pass;
     }, 
     getDataExcel: (ruta = "") => {
-        const rutaArchivo = ruta;
-        // const rutaArchivo = './excell/usuariosActualizado.xlsx';
-      
-        // Leer el archivo XLSX
-        const libro = XLSX.readFile(rutaArchivo);
-      
-        // Obtener la primera hoja del libro
-        const nombreHoja = libro.SheetNames[0];
-        console.log(nombreHoja);
-        const hoja = libro.Sheets[nombreHoja];
-      
-        // Convertir la hoja en un objeto JSON
-        const datos = XLSX.utils.sheet_to_json(hoja);
-      
-        return datos;
+        try {
+            const rutaArchivo = ruta;
+            // const rutaArchivo = './excell/usuariosActualizado.xlsx';
+          
+            // Leer el archivo XLSX
+            const libro = XLSX.readFile(rutaArchivo);
+          
+            // Obtener la primera hoja del libro
+            const nombreHoja = libro.SheetNames[0];
+            console.log(nombreHoja);
+            const hoja = libro.Sheets[nombreHoja];
+          
+            // Convertir la hoja en un objeto JSON
+            const datos = XLSX.utils.sheet_to_json(hoja);
+            console.log('%cUtils.js line:56 datos', 'color: #007acc;', datos);
+
+            return datos;
+            
+        } catch (error) {
+            console.log('%cUtils.js line:58 error', 'color: #007acc;', error);
+            throw(error);
+        }
+       
+      return null;
+        
       }
 }

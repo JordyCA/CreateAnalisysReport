@@ -9,11 +9,13 @@ module.exports = {
     getNewIndicators : (request, response) => {
         try {
             const nombre = "TESORERIA";
+            console.log('%cConceptosController.js line:12 nombre', 'color: #007acc;', nombre);
             const excelData = Utils.getDataExcel(`./public/excelReports/noticiaAdministrativa/nuevos/NOTICIA_ADMINISTRATIVA_${nombre}.xlsx`);
+            console.log('%cConceptosController.js line:13 exceñData', 'color: #007acc;', excelData);
             const getData = async () => {
-
                 let maxValue = await ConceptoModel.getMaxId();
                 Promise.all(maxValue);
+                console.log('%cConceptosController.js line:16 maxValue', 'color: #007acc;', maxValue);
                 maxValue = parseInt(maxValue[0]?.max) + 1;
 
                 let sqlText = "";

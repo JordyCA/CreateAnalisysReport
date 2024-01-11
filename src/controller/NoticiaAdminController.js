@@ -11,71 +11,56 @@ module.exports = {
     createNewActivityIndicators: (request, response) => {
         try {
             const nameFile = "TESORERIA";
-
+            const tarea = request.query?.tarea || '';
+            console.log('%cNoticiaAdminController.js line:15 request?.tarea', 'color: #007acc;', request?.tarea);
+            console.log('%cNoticiaAdminController.js line:15tarea', 'color: #007acc;',tarea);
             const excelData = Utils.getDataExcel(`./public/excelReports/noticiaAdministrativa/nuevos/NOTICIA_ADMINISTRATIVA_${nameFile}.xlsx`);
             const getData = async () => {
                 let query = "";
                 let warningQuery = "";
                 for (let i = 0; i < excelData.length; i++) {
                     const data = excelData[i];
-                    let eje = data?.num_eje ? data?.num_eje : 0;
-                    let numProg = data?.num_programa ? data?.num_programa : 0;
-                    let numComp = data?.num_componente ? data?.num_componente : 0;
-                    let numAct = data?.num_actividad ? data?.num_actividad : 0;
-                    let consecutivo = data?.Consecutivo ? data?.Consecutivo : 0;
-                    let idDep = data?.dependencia ? data?.dependencia : 0;
-
-                    let concepto = data?.concepto ? Utils.quitarEspacios(data?.concepto) : "";
-                    let unidadResp = data?.unidad_responsable ? Utils.quitarEspacios(data?.unidad_responsable) : "";
-                    let linAcc = data.lineas_accion && data.lineas_accion !== null ? (data.lineas_accion + ' ' ).toLowerCase() : "[]";
-
-                    if (linAcc !== "[]") {
-                        linAcc = linAcc.replaceAll("la", "");
-                        linAcc = linAcc.replaceAll(" ", "");
-                        linAcc = linAcc.replaceAll("y", ",");
-                        linAcc = `[${linAcc}]`;
-                    }
-
-                    if (
-                        data?.origen_pbr == "SI"
-                    ) {
-                        
-                        let idComponente = await ComponentesModel.getRow(numProg, numComp);
-                        Promise.all(idComponente);
-                        if (idComponente && idComponente.length > 0) {
-                            let idActividad = await ActModel.getRow(eje, numProg, idComponente[0].id,numAct);
-                            const dataNotAdminDB = await NotAdmModel.getRowByName(concepto);
-                            Promise.all([dataNotAdminDB, idActividad]);
-                            console.log(idActividad);
-                            console.log(dataNotAdminDB);
-                            if ((idActividad && idActividad.length > 0) && (dataNotAdminDB && dataNotAdminDB.length > 0)) {
-                                query += `
-                                #${concepto}
-                                INSERT INTO \`595071_accionespue\`.\`noticia_administrativa_conceptos_pbr\` 
-                                (\`id_actividades\`, \`id_noticia_administrativa\`, \`id_dependencia\`, \`id_unidad_responsable\`, \`id_eje\`, \`id_programa\`, \`lineas_accion\`, \`orden_concepto\`, \`is_indicador_mensual\`) 
-                                SELECT
-                                    ${idActividad[0].id} AS id_actividades, 
-                                    ${dataNotAdminDB[0].id} AS id_noticia_administrativa, 
-                                    dur.id_dependencia AS id_dependencia,
-                                    dur.id AS id_unidad_responsable, 
-                                    ${eje} AS id_eje,
-                                    ( SELECT id FROM 595071_accionespue.programas WHERE programas.numero =  ${numProg} ) AS id_programa, 
-                                    '${linAcc}' AS lineas_accion,
-                                    ${consecutivo} AS orden_concepto,
-                                    1 AS is_noticia_administrativa_mes
-                                FROM 595071_accionespue.dependencias_unidades_responsables AS dur
-                                WHERE dur.id_dependencia = ${idDep}
-                                AND dur.eliminado = 0
-                                AND dur.nombre ="${unidadResp}" ;
-                                \n`;
-                            } else {
-                                warningQuery += `
-                                    #no se encontro - ${concepto}
+                    if (data?.tarea === tarea) {
+                        let eje = data?.num_eje ? data?.num_eje : 0;
+                        let numProg = data?.num_programa ? data?.num_programa : 0;
+                        let numComp = data?.num_componente ? data?.num_componente : 0;
+                        let numAct = data?.num_actividad ? data?.num_actividad : 0;
+                        let consecutivo = data?.Consecutivo ? data?.Consecutivo : 0;
+                        let idDep = data?.dependencia ? data?.dependencia : 0;
+    
+                        let concepto = data?.concepto ? Utils.quitarEspacios(data?.concepto) : "";
+                        let unidadResp = data?.unidad_responsable ? Utils.quitarEspacios(data?.unidad_responsable) : "";
+                        let linAcc = data.lineas_accion && data.lineas_accion !== null ? (data.lineas_accion + ' ').toLowerCase() : "[]";
+    
+                        if (linAcc !== "[]") {
+                            linAcc = linAcc.replaceAll("la", "");
+                            linAcc = linAcc.replaceAll(" ", "");
+                            linAcc = linAcc.replaceAll("y", ",");
+                            linAcc = `[${linAcc}]`;
+                        }
+    
+                        switch (data?.tarea) {
+                            case 'newRows':
+                                if (
+                                    data?.origen_pbr == "SI"
+                                ) {
+    
+                                    let idComponente = await ComponentesModel.getRow(numProg, numComp);
+                                    Promise.all(idComponente);
+                                    if (idComponente && idComponente.length > 0) {
+                                        let idActividad = await ActModel.getRow(eje, numProg, idComponente[0].id, numAct);
+                                        const dataNotAdminDB = await NotAdmModel.getRowByName(concepto);
+                                        Promise.all([dataNotAdminDB, idActividad]);
+                                        console.log(idActividad);
+                                        console.log(dataNotAdminDB);
+                                        if ((idActividad && idActividad.length > 0) && (dataNotAdminDB && dataNotAdminDB.length > 0)) {
+                                            query += `
+                                    #${concepto}
                                     INSERT INTO \`595071_accionespue\`.\`noticia_administrativa_conceptos_pbr\` 
                                     (\`id_actividades\`, \`id_noticia_administrativa\`, \`id_dependencia\`, \`id_unidad_responsable\`, \`id_eje\`, \`id_programa\`, \`lineas_accion\`, \`orden_concepto\`, \`is_indicador_mensual\`) 
                                     SELECT
-                                        ${idActividad[0]?.id} AS id_actividades, 
-                                        ${dataNotAdminDB[0]?.id} AS id_noticia_administrativa, 
+                                        ${idActividad[0].id} AS id_actividades, 
+                                        ${dataNotAdminDB[0].id} AS id_noticia_administrativa, 
                                         dur.id_dependencia AS id_dependencia,
                                         dur.id AS id_unidad_responsable, 
                                         ${eje} AS id_eje,
@@ -87,89 +72,135 @@ module.exports = {
                                     WHERE dur.id_dependencia = ${idDep}
                                     AND dur.eliminado = 0
                                     AND dur.nombre ="${unidadResp}" ;
-                                    \n
-                                `;
-                            }
-                        }
-                    }
-
-                    if (
-                        data?.origen_pbr == "NO"
-                    ) {
-                        const dataNotAdminDB = await NotAdmModel.getRowByName(concepto);
-                        Promise.all(dataNotAdminDB);
-                        console.log(dataNotAdminDB);
-                        if (dataNotAdminDB && dataNotAdminDB.length > 0) {
-
-                            // const validateExistRow = await NotAdmModel.getValidateRow(idDep, eje, numProg, unidadResp, concepto);
-                            // Promise.all(validateExistRow);
-                            // if (validateExistRow && validateExistRow.length > 0) {
-                            //     query += `
-                            //     #${concepto}
-                            //     UPDATE \`595071_accionespue\`.\`noticia_administrativa_general\` 
-                            //     SET \`orden_concepto\` = '${consecutivo}', 
-                            //     \`lineas_accion\` = '${linAcc}'
-                            //     WHERE (\`id\` = '${validateExistRow[0].nagId}');
-                            //     \n
-                            //     `
-                            // } else {
-
-                                query += `
-                                #${concepto}
-                                    INSERT INTO \`595071_accionespue\`.\`noticia_administrativa_general\` 
-                                    (\`id_noticia_administrativa\`, \`id_dependencia\`, \`id_unidad_responsable\`, \`lineas_accion\`, \`id_eje\`, \`id_programa\`, \`orden_concepto\`, \`is_noticia_administrativa_mes\`, \`noticia_administrativa_campos\`, \`is_decimal_acumulado\`, \`eliminado\`) 
-                                    SELECT 
-                                    ${dataNotAdminDB[0].id} AS id_noticia_administrativa, 
-                                    dur.id_dependencia AS id_dependencia,
-                                    dur.id AS id_unidad_responsable, 
-                                    '${linAcc}' AS lineas_accion,
-                                    ${eje} AS id_eje,
-                                    ( SELECT id FROM 595071_accionespue.programas WHERE programas.numero =  ${numProg} ) AS id_programa, 
-                                    ${consecutivo} AS orden_concepto,
-                                    0 AS is_noticia_administrativa_mes, 
-                                    '[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36]' AS noticia_administrativa_campos,
-                                    0 AS is_decimal_acumulado,
-                                    0 AS eliminado
-                                    FROM 595071_accionespue.dependencias_unidades_responsables AS dur
-                                    WHERE dur.id_dependencia = ${idDep}
-                                    AND dur.eliminado = 0
-                                    AND dur.nombre ="${unidadResp}" ;
-                                    \n
+                                    \n`;
+                                        } else {
+                                            warningQuery += `
+                                        #no se encontro - ${concepto}
+                                        INSERT INTO \`595071_accionespue\`.\`noticia_administrativa_conceptos_pbr\` 
+                                        (\`id_actividades\`, \`id_noticia_administrativa\`, \`id_dependencia\`, \`id_unidad_responsable\`, \`id_eje\`, \`id_programa\`, \`lineas_accion\`, \`orden_concepto\`, \`is_indicador_mensual\`) 
+                                        SELECT
+                                            ${idActividad[0]?.id} AS id_actividades, 
+                                            ${dataNotAdminDB[0]?.id} AS id_noticia_administrativa, 
+                                            dur.id_dependencia AS id_dependencia,
+                                            dur.id AS id_unidad_responsable, 
+                                            ${eje} AS id_eje,
+                                            ( SELECT id FROM 595071_accionespue.programas WHERE programas.numero =  ${numProg} ) AS id_programa, 
+                                            '${linAcc}' AS lineas_accion,
+                                            ${consecutivo} AS orden_concepto,
+                                            1 AS is_noticia_administrativa_mes
+                                        FROM 595071_accionespue.dependencias_unidades_responsables AS dur
+                                        WHERE dur.id_dependencia = ${idDep}
+                                        AND dur.eliminado = 0
+                                        AND dur.nombre ="${unidadResp}" ;
+                                        \n
                                     `;
-                            // }
+                                        }
+                                    }
+                                }
+    
+                                if (
+                                    data?.origen_pbr == "NO"
+                                ) {
+                                    const dataNotAdminDB = await NotAdmModel.getRowByName(concepto);
+                                    Promise.all(dataNotAdminDB);
+                                    console.log(dataNotAdminDB);
+                                    if (dataNotAdminDB && dataNotAdminDB.length > 0) {
+                                        query += `
+                                    #${concepto}
+                                        INSERT INTO \`595071_accionespue\`.\`noticia_administrativa_general\` 
+                                        (\`id_noticia_administrativa\`, \`id_dependencia\`, \`id_unidad_responsable\`, \`lineas_accion\`, \`id_eje\`, \`id_programa\`, \`orden_concepto\`, \`is_noticia_administrativa_mes\`, \`noticia_administrativa_campos\`, \`is_decimal_acumulado\`, \`eliminado\`) 
+                                        SELECT 
+                                        ${dataNotAdminDB[0].id} AS id_noticia_administrativa, 
+                                        dur.id_dependencia AS id_dependencia,
+                                        dur.id AS id_unidad_responsable, 
+                                        '${linAcc}' AS lineas_accion,
+                                        ${eje} AS id_eje,
+                                        ( SELECT id FROM 595071_accionespue.programas WHERE programas.numero =  ${numProg} ) AS id_programa, 
+                                        ${consecutivo} AS orden_concepto,
+                                        0 AS is_noticia_administrativa_mes, 
+                                        '[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36]' AS noticia_administrativa_campos,
+                                        0 AS is_decimal_acumulado,
+                                        0 AS eliminado
+                                        FROM 595071_accionespue.dependencias_unidades_responsables AS dur
+                                        WHERE dur.id_dependencia = ${idDep}
+                                        AND dur.eliminado = 0
+                                        AND dur.nombre ="${unidadResp}" ;
+                                        \n
+                                        `;
+                                    } else {
+                                        warningQuery += `
+                                            # No se encontro -  ${concepto}
+                                            INSERT INTO \`595071_accionespue\`.\`noticia_administrativa_general\` 
+                                            (\`id_noticia_administrativa\`, \`id_dependencia\`, \`id_unidad_responsable\`, \`lineas_accion\`, \`id_eje\`, \`id_programa\`, \`orden_concepto\`, \`is_noticia_administrativa_mes\`, \`noticia_administrativa_campos\`, \`is_decimal_acumulado\`, \`eliminado\`) 
+                                            SELECT 
+                                            ${dataNotAdminDB[0]?.id} AS id_noticia_administrativa, 
+                                            dur.id_dependencia AS id_dependencia,
+                                            dur.id AS id_unidad_responsable, 
+                                            '${linAcc}' AS lineas_accion,
+                                            ${eje} AS id_eje,
+                                            ( SELECT id FROM 595071_accionespue.programas WHERE programas.numero =  ${numProg} ) AS id_programa, 
+                                            ${consecutivo} AS orden_concepto,
+                                            0 AS is_noticia_administrativa_mes, 
+                                            '[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36]' AS noticia_administrativa_campos,
+                                            0 AS is_decimal_acumulado,
+                                            0 AS eliminado
+                                            FROM 595071_accionespue.dependencias_unidades_responsables AS dur
+                                            WHERE dur.id_dependencia = ${idDep}
+                                            AND dur.eliminado = 0
+                                            AND dur.nombre ="${unidadResp}" ;
+                                            \n
+                                        `;
+                                    }
+                                }
+    
+                                break;
+    
+                            case 'updateLineasAccion':
+                                    const idNoticiaAdministrativaGeneral = await NotAdmModel.getIdRow(idDep, unidadResp, concepto);
+                                    Promise.all(idNoticiaAdministrativaGeneral);
 
-                          
-                        } else {
+                                    console.log(idNoticiaAdministrativaGeneral[0]);
 
-                            warningQuery += `
-                            # No se encontro -  ${concepto}
-                            INSERT INTO \`595071_accionespue\`.\`noticia_administrativa_general\` 
-                            (\`id_noticia_administrativa\`, \`id_dependencia\`, \`id_unidad_responsable\`, \`lineas_accion\`, \`id_eje\`, \`id_programa\`, \`orden_concepto\`, \`is_noticia_administrativa_mes\`, \`noticia_administrativa_campos\`, \`is_decimal_acumulado\`, \`eliminado\`) 
-                            SELECT 
-                            ${dataNotAdminDB[0]?.id} AS id_noticia_administrativa, 
-                            dur.id_dependencia AS id_dependencia,
-                            dur.id AS id_unidad_responsable, 
-                            '${linAcc}' AS lineas_accion,
-                            ${eje} AS id_eje,
-                            ( SELECT id FROM 595071_accionespue.programas WHERE programas.numero =  ${numProg} ) AS id_programa, 
-                            ${consecutivo} AS orden_concepto,
-                            0 AS is_noticia_administrativa_mes, 
-                            '[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36]' AS noticia_administrativa_campos,
-                            0 AS is_decimal_acumulado,
-                            0 AS eliminado
-                            FROM 595071_accionespue.dependencias_unidades_responsables AS dur
-                            WHERE dur.id_dependencia = ${idDep}
-                            AND dur.eliminado = 0
-                            AND dur.nombre ="${unidadResp}" ;
-                            \n
-                            `;
+                                    if (idNoticiaAdministrativaGeneral[0]?.id) {
+                                        query += `
+                                        UPDATE 595071_accionespue.noticia_administrativa_general 
+                                            SET lineas_accion = '${linAcc}', 
+                                            orden_concepto = '${data.Consecutivo}' 
+                                            WHERE (id = '${idNoticiaAdministrativaGeneral[0]?.id}');
+                                        `;
+                                    } else {
+                                        warningQuery += `
+                                        # consecutivo ${data.Consecutivo}
+                                        UPDATE 595071_accionespue.noticia_administrativa_general 
+                                            SET lineas_accion = '${linAcc}', 
+                                            orden_concepto = '${data.Consecutivo}' 
+                                            WHERE (id = '${idNoticiaAdministrativaGeneral[0]?.id}');
+                                        `;
+                                    }
+                                    
+                                   
+                                    //** tener el id de la nag */
+                                    //** encontrar  */
+                                break;
+    
+                            // case '':
+                            //     break;
+                            // case '':
+                            //     break;
+                            // case '':
+                            //     break;
+                            // case '':
+                            //     break;
+                            default:
+                                break;
+                        }
+    
+                        Utils.guardarArchivos(`public/importExcel/noticiaAdministrativa/pbr/sql/${nameFile}.sql`, query);
+                        if (warningQuery !== "") {
+                            Utils.guardarArchivos(`public/importExcel/noticiaAdministrativa/pbr/sql/${nameFile}Warning.sql`, warningQuery);
                         }
                     }
-
-                    Utils.guardarArchivos(`public/importExcel/noticiaAdministrativa/pbr/sql/${nameFile}.sql`, query);
-                    if (warningQuery !== "") {
-                        Utils.guardarArchivos(`public/importExcel/noticiaAdministrativa/pbr/sql/${nameFile}Warning.sql`, warningQuery);
-                    }
+                   
 
                 }
                 return response.status(202).json({ data: excelData });
