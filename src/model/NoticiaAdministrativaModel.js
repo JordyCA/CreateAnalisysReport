@@ -10,6 +10,41 @@ const optionDB = {
 }
 
 module.exports = {
+    getIdRow: async (idDependence = 0, nameUnidadResponsable = '', nameActividad = '') => {
+        const mysqlConnection = MysqlStore.createConnection(optionDB);
+        try {
+            return await new Promise((resolve, reject) => {
+                mysqlConnection.query(`
+                    SELECT 
+                        nag.id, dep.nombre , dur.nombre, nag.orden_concepto, nac.concepto
+                    FROM noticia_administrativa_general as nag 
+                    inner join noticia_administrativa as nac on (nag.id_noticia_administrativa = nac.id and nac.eliminado = 0 )
+                    inner join dependencias as dep on (dep.id = nag.id_dependencia and dep.eliminado  = 0)
+                    inner join dependencias_unidades_responsables as dur on (dur.id= nag.id_unidad_responsable and dur.eliminado = 0)
+                    where  nag.id_dependencia =  ${idDependence}
+                        and nac.concepto = '${nameActividad}'
+                        and dur.nombre = '${nameUnidadResponsable}'
+                        and nag.eliminado = 0
+                    order by dur.orden_noticia_administrativa;
+                ;
+
+               `, (error, results, fields) => {
+                    if (error) {
+                        reject(error)
+                    } else {
+                        resolve(results);
+                    }
+                })
+            }
+            )
+
+        } catch (error) {
+            console.log('%cActividadesModel.js line:6 error Actividades', 'color: #007acc;', error);
+        } finally {
+            console.log("Estoy cerrando la conección a la base de datos");
+            mysqlConnection.end();
+        }
+    },
     getListIndicadoresForm: async (idDependence = 0) => {
         const mysqlConnection = MysqlStore.createConnection(optionDB);
         try {
@@ -55,7 +90,7 @@ module.exports = {
             mysqlConnection.end();
         }
     },
-    getListIndicadoresActAccInd: async (idDependence=0) => {
+    getListIndicadoresActAccInd: async (idDependence = 0) => {
         const mysqlConnection = MysqlStore.createConnection(optionDB);
         try {
             let where = idDependence == 0 ? "" : ` AND act.id_dependencia = ${idDependence} `;
@@ -127,7 +162,7 @@ module.exports = {
             mysqlConnection.end();
         }
     },
-    getRowByName: async ( name = "") => {
+    getRowByName: async (name = "") => {
         const mysqlConnection = MysqlStore.createConnection(optionDB);
         try {
             return await new Promise((resolve, reject) => {
