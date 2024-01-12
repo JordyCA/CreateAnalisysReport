@@ -4,6 +4,7 @@ const noticiaAdmin = require('./noticiaAdministrativa');
 const concepto = require('./concepto');
 const unidadResponsable = require('./unidadResponsable');
 const usuario = require('./usuario');
+const actividad = require('./actividad');
 
 module.exports = (router) => {
     report(router);
@@ -12,5 +13,6 @@ module.exports = (router) => {
     concepto(router);
     unidadResponsable(router);
     usuario(router);
+    actividad(router);
     return router;
 }
