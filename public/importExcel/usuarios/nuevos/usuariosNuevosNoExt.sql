@@ -1,0 +1,4 @@
+##### Secretaría de Servicios Públicos
+### Password - Pue@Cjw8L56k / $2b$12$M6LaogzDLn5B86Gxd92ugOMx1xGVMUriEVRTpTTJJQaWe.QcyM4xe
+INSERT INTO `595071_accionespue`.`usuarios` (`id_dependencia`, `id_dependencia_edg`,  `id_rol`, `usuario`, `nombre`, `primer_apellido`, `segundo_apellido`, `telefono`, `cargo`, `email`, `password`, `fecha_alta`, `fecha_actualizacion`, `fecha_eliminacion`, `eliminado`, `privilegios_contratos`, `privilegios`) 
+VALUES ('11', '11' , '0', 'monserrat.peralta', 'Paulina Monserrat', 'Peralta', 'Romero', '2223454628', 'Enlace Administrativo', 'paulina.peralta.ssp@gmail.com', '$2b$12$M6LaogzDLn5B86Gxd92ugOMx1xGVMUriEVRTpTTJJQaWe.QcyM4xe', '0', '0', '0', '0', '{"0":0,"1":0,"2":0,"3":0,"4":0,"5":1,"6":0,"7":0,"8":0,"9":0,"10":0,"11":0,"12":0,"13":0,"14":0,"15":0,"16":0,"17":0,"18":1,"19":1,"20":0,"21":0,"22":0,"23":0,"24":0,"25":0,"26":0,"27":1,"28":0,"29":1,"30":0,"31":1,"2.1":1,"4.1":0,"13.1":0,"31.1":0}', '{"cts":3}'); 
