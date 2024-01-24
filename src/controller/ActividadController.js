@@ -13,8 +13,9 @@ module.exports = {
                 const actividades = excelData[i];
                 actividades.descripcion = Utils.quitarEspacios(actividades.descripcion)
                 actividades.unidad = Utils.quitarEspacios(actividades.unidad);
-                actividades.coordenadas = Utils.quitarEspacios(actividades.coordenadas);
-                actividades.campos = Utils.quitarEspacios(actividades.campos);
+                actividades.coordenada = Utils.quitarEspacios(actividades.coordenada);
+                actividades.campo = Utils.quitarEspacios(actividades.campo);
+                actividades.campoDescripcion = Utils.quitarEspacios(actividades.campoDescripcion);
                 actividades.dependencia = Utils.quitarEspacios(actividades.dependencia);
                 excelData[i] = actividades;
             }
