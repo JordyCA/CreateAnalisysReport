@@ -53,7 +53,7 @@ module.exports = {
           
             // Convertir la hoja en un objeto JSON
             const datos = XLSX.utils.sheet_to_json(hoja);
-            console.log('%cUtils.js line:56 datos', 'color: #007acc;', datos);
+            // console.log('%cUtils.js line:56 datos', 'color: #007acc;', datos);
 
             return datos;
             

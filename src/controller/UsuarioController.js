@@ -104,7 +104,7 @@ module.exports = {
                     privilegiosDB.cts = 3;
                     privilegiosUpdate += " ,`privilegios` = '" + JSON.stringify(privilegiosDB) + "' ";
                 }
-                
+
                 textGeneral += `# validacion V  ${element.validacion}  # dependencia  ${element[1]?.dependencia}\n`;
                 textGeneral += `## ID -> ${element[1]?.id} - Usuario -> ${element[1]?.usuario} ${element[1]?.nombre} ${element[1]?.primer_apellido} ${element[1]?.segundo_apellido}\n`;
                 textGeneral += "UPDATE `595071_accionespue`.`usuarios` SET `privilegios_contratos` = '" + JSON.stringify(newPrivilegios) + "' " + privilegiosUpdate + " WHERE (`id` = '" + element[1]?.id + "'); \n";
@@ -206,5 +206,12 @@ module.exports = {
 
         validateData();
 
+    },
+    generatePassword: (request, response) => {
+        const basicPass = 'Pue@' + (Utils.generateSomePass(8));
+        const hashPass = bcrypt.hashSync(basicPass, bcrypt.genSaltSync(12));
+        const textGeneral = `### Password - ${basicPass} / ${hashPass} \n  `;
+        Utils.guardarArchivos('./public/importExcel/usuarios/onlyPasswords/password.sql', textGeneral);
+        response.json({ password : textGeneral});
     }
 }

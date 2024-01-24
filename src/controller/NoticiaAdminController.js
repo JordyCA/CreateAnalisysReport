@@ -10,7 +10,7 @@ const Utils = require('../util/Utils');
 module.exports = {
     createNewActivityIndicators: (request, response) => {
         try {
-            const nameFile = "TESORERIA";
+            const nameFile = "MOVILIDAD";
             const tarea = request.query?.tarea || '';
             console.log('%cNoticiaAdminController.js line:15 request?.tarea', 'color: #007acc;', request?.tarea);
             console.log('%cNoticiaAdminController.js line:15tarea', 'color: #007acc;',tarea);
@@ -161,7 +161,7 @@ module.exports = {
 
                                     console.log(idNoticiaAdministrativaGeneral[0]);
 
-                                    if (idNoticiaAdministrativaGeneral[0]?.id) {
+                                    if (idNoticiaAdministrativaGeneral.length > 0 && idNoticiaAdministrativaGeneral[0]?.id) {
                                         query += `
                                         UPDATE 595071_accionespue.noticia_administrativa_general 
                                             SET lineas_accion = '${linAcc}', 
@@ -177,10 +177,6 @@ module.exports = {
                                             WHERE (id = '${idNoticiaAdministrativaGeneral[0]?.id}');
                                         `;
                                     }
-                                    
-                                   
-                                    //** tener el id de la nag */
-                                    //** encontrar  */
                                 break;
     
                             // case '':
@@ -196,6 +192,7 @@ module.exports = {
                         }
     
                         Utils.guardarArchivos(`public/importExcel/noticiaAdministrativa/pbr/sql/${nameFile}.sql`, query);
+                        
                         if (warningQuery !== "") {
                             Utils.guardarArchivos(`public/importExcel/noticiaAdministrativa/pbr/sql/${nameFile}Warning.sql`, warningQuery);
                         }
