@@ -84,5 +84,32 @@ module.exports = {
             console.log("Estoy cerrando la conección a la base de datos");
             mysqlConnection.end();
         }
+    },
+    getRowByCoord: async (coords = '', year = 0) => {
+        const mysqlConnection = MysqlStore.createConnection(optionDB);
+        try {
+            return await new Promise((resolve, reject) => {
+                mysqlConnection.query(`
+                    SELECT 
+                        id, id_eje,id_programa, lineas_de_accion, coordenada, ano
+                    FROM actividades as act
+                    WHERE act.eliminado = 0
+                        AND act.ano = ${year}
+                        AND act.coordenada in (${coords})
+               `, (error, results, fields) => {
+                    if (error) {
+                        reject(error)
+                    } else {
+                        resolve(results);
+                    }
+                })
+            }
+            )
+        } catch (error) {
+            console.log('%cActividadesModel.js line:6 error Actividades', 'color: #007acc;', error);
+        } finally {
+            console.log("Estoy cerrando la conección a la base de datos");
+            mysqlConnection.end();
+        }
     }
 }
