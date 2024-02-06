@@ -13,7 +13,7 @@ module.exports = {
             const nameFile = "MOVILIDAD";
             const tarea = request.query?.tarea || '';
             console.log('%cNoticiaAdminController.js line:15 request?.tarea', 'color: #007acc;', request?.tarea);
-            console.log('%cNoticiaAdminController.js line:15tarea', 'color: #007acc;',tarea);
+            console.log('%cNoticiaAdminController.js line:15tarea', 'color: #007acc;', tarea);
             const excelData = Utils.getDataExcel(`./public/excelReports/noticiaAdministrativa/nuevos/NOTICIA_ADMINISTRATIVA_${nameFile}.xlsx`);
             const getData = async () => {
                 let query = "";
@@ -27,24 +27,24 @@ module.exports = {
                         let numAct = data?.num_actividad ? data?.num_actividad : 0;
                         let consecutivo = data?.Consecutivo ? data?.Consecutivo : 0;
                         let idDep = data?.dependencia ? data?.dependencia : 0;
-    
+
                         let concepto = data?.concepto ? Utils.quitarEspacios(data?.concepto) : "";
                         let unidadResp = data?.unidad_responsable ? Utils.quitarEspacios(data?.unidad_responsable) : "";
                         let linAcc = data.lineas_accion && data.lineas_accion !== null ? (data.lineas_accion + ' ').toLowerCase() : "[]";
-    
+
                         if (linAcc !== "[]") {
                             linAcc = linAcc.replaceAll("la", "");
                             linAcc = linAcc.replaceAll(" ", "");
                             linAcc = linAcc.replaceAll("y", ",");
                             linAcc = `[${linAcc}]`;
                         }
-    
+
                         switch (data?.tarea) {
                             case 'newRows':
                                 if (
                                     data?.origen_pbr == "SI"
                                 ) {
-    
+
                                     let idComponente = await ComponentesModel.getRow(numProg, numComp);
                                     Promise.all(idComponente);
                                     if (idComponente && idComponente.length > 0) {
@@ -97,7 +97,7 @@ module.exports = {
                                         }
                                     }
                                 }
-    
+
                                 if (
                                     data?.origen_pbr == "NO"
                                 ) {
@@ -152,33 +152,33 @@ module.exports = {
                                         `;
                                     }
                                 }
-    
+
                                 break;
-    
+
                             case 'updateLineasAccion':
-                                    const idNoticiaAdministrativaGeneral = await NotAdmModel.getIdRow(idDep, unidadResp, concepto);
-                                    Promise.all(idNoticiaAdministrativaGeneral);
+                                const idNoticiaAdministrativaGeneral = await NotAdmModel.getIdRow(idDep, unidadResp, concepto);
+                                Promise.all(idNoticiaAdministrativaGeneral);
 
-                                    console.log(idNoticiaAdministrativaGeneral[0]);
+                                console.log(idNoticiaAdministrativaGeneral[0]);
 
-                                    if (idNoticiaAdministrativaGeneral.length > 0 && idNoticiaAdministrativaGeneral[0]?.id) {
-                                        query += `
+                                if (idNoticiaAdministrativaGeneral.length > 0 && idNoticiaAdministrativaGeneral[0]?.id) {
+                                    query += `
                                         UPDATE 595071_accionespue.noticia_administrativa_general 
                                             SET lineas_accion = '${linAcc}', 
                                             orden_concepto = '${data.Consecutivo}' 
                                             WHERE (id = '${idNoticiaAdministrativaGeneral[0]?.id}');
                                         `;
-                                    } else {
-                                        warningQuery += `
+                                } else {
+                                    warningQuery += `
                                         # consecutivo ${data.Consecutivo}
                                         UPDATE 595071_accionespue.noticia_administrativa_general 
                                             SET lineas_accion = '${linAcc}', 
                                             orden_concepto = '${data.Consecutivo}' 
                                             WHERE (id = '${idNoticiaAdministrativaGeneral[0]?.id}');
                                         `;
-                                    }
+                                }
                                 break;
-    
+
                             // case '':
                             //     break;
                             // case '':
@@ -190,14 +190,14 @@ module.exports = {
                             default:
                                 break;
                         }
-    
+
                         Utils.guardarArchivos(`public/importExcel/noticiaAdministrativa/pbr/sql/${nameFile}.sql`, query);
-                        
+
                         if (warningQuery !== "") {
                             Utils.guardarArchivos(`public/importExcel/noticiaAdministrativa/pbr/sql/${nameFile}Warning.sql`, warningQuery);
                         }
                     }
-                   
+
 
                 }
                 return response.status(202).json({ data: excelData });
@@ -253,6 +253,97 @@ module.exports = {
             getData();
         } catch (error) {
             console.log(error);
+        }
+    },
+    createNewPbrWithOtherClases2024: (request, response) => {
+        try {
+            const getData = async () => {
+                //** Casos normales */
+                const normalProcessMigrateData = await NotAdmModel.getMigrateNoticiaAdministratviaConceptosPBR(2023, 2024);
+                Promise.all(normalProcessMigrateData);
+                let query = "";
+                for (let i = 0; i < normalProcessMigrateData.length; i++) {
+                    const data = normalProcessMigrateData[i];
+                    let linAcc = data.lineas_de_accion && data.lineas_de_accion !== '' ? (Utils.quitarEspacios(data.lineas_de_accion) + ' ').toLowerCase() : "[]";
+                    if (linAcc !== "[]") {
+                        linAcc = linAcc.replaceAll("la", "");
+                        linAcc = linAcc.replaceAll(" ", "");
+                        linAcc = linAcc.replaceAll("y", ",");
+                        linAcc = `[${linAcc}]`;
+                    }
+                    // console.log(linAcc);
+                    query += "INSERT INTO `595071_accionespue`.`noticia_administrativa_conceptos_pbr` (`id_actividades`, `id_noticia_administrativa`, `id_dependencia`, `id_unidad_responsable`, `id_eje`, `id_programa`, `lineas_accion`, `orden_concepto`, `is_indicador_mensual`, `eliminado`) \n";
+                    query += `VALUES ('${data.idActividad}', '${data.id_noticia_administrativa}', '${data.id_dependencia}', '${data.id_unidad_responsable}', '${data.id_eje}', '${data.id_programa}', '${linAcc}', '${data.orden_concepto}', '${data.is_indicador_mensual}', '0'); \n`
+                }
+                Utils.guardarArchivos('public/importExcel/noticiaAdministrativa/pbr/sql/migracion2024Normales.sql', query);
+
+                //** casos especiales */
+                const excelData = Utils.getDataExcel(`./public/excelReports/noticiaAdministrativa/migracionConceptosPbr/coordenadas2023-2024.xlsx`);
+                const especialProcessMigrateData = await NotAdmModel.getMigrateNoticiaAdministravaConceptosPBREspeciales(2023);
+                const datafor2024Array = [];
+                const coords2024Array = [];
+                Promise.all(especialProcessMigrateData);
+                for (let i = 0; i < especialProcessMigrateData.length; i++) {
+                    const especialData = especialProcessMigrateData[i];
+                    const datafor2024 = excelData.find((e) => {
+                        return e?.[`2023`] == especialData['coordenada']
+                    });
+                    if (datafor2024) {
+                        // console.log(datafor2024?.['2024']);
+                        // const dataActividad = ActModel.getRowByCoord( datafor2024?.['2024'] , 2024);
+                        // Promise.all(dataActividad);
+                        // console.log(dataActividad);
+                        /**
+                         * act.coordenada, narcp.id_noticia_administrativa, orden_concepto, is_indicador_mensual ,
+                        act.id_dependencia, narcp.id_unidad_responsable
+                         */
+                        datafor2024Array.push({
+                            id_noticia_administrativa: especialData['id_noticia_administrativa'],
+                            orden_concepto: especialData['orden_concepto'],
+                            is_indicador_mensual: especialData['is_indicador_mensual'],
+                            id_dependencia: especialData['id_dependencia'],
+                            id_unidad_responsable: especialData['id_unidad_responsable'],
+                            coordenada_2024: datafor2024?.['2024'],
+                            coordenada_2023: especialData['coordenada']
+                        });
+                        coords2024Array.push(`'${datafor2024?.['2024']}'`);
+                    }
+                }
+                // console.log(coords2024Array.toString());
+
+                query = '';
+                const dataActividad = await ActModel.getRowByCoord(coords2024Array.toString(), 2024);
+                Promise.all(dataActividad);
+                // console.log(dataActividad);
+
+                dataActividad.forEach(data => {
+                    const dataTemp = datafor2024Array.find(e => data['coordenada'] == e.coordenada_2024);
+                    console.log(data);
+                    if (dataTemp) {
+                        let linAcc = data["lineas_de_accion"] && data["lineas_de_accion"] !== '' ? (Utils.quitarEspacios(data["lineas_de_accion"]) + ' ').toLowerCase() : "[]";
+                        if (linAcc !== "[]") {
+                            linAcc = linAcc.replaceAll("la", "");
+                            linAcc = linAcc.replaceAll(" ", "");
+                            linAcc = linAcc.replaceAll("y", ",");
+                            linAcc = `[${linAcc}]`;
+                        }
+
+                        //** id, id_eje,id_programa, lineas_de_accion, coordenada, ano */
+                        query += "INSERT INTO `595071_accionespue`.`noticia_administrativa_conceptos_pbr` (`id_actividades`, `id_noticia_administrativa`, `id_dependencia`, `id_unidad_responsable`, `id_eje`, `id_programa`, `lineas_accion`, `orden_concepto`, `is_indicador_mensual`, `eliminado`) \n";
+                        query += `VALUES ('${data["id"]}', '${dataTemp.id_noticia_administrativa}', '${dataTemp.id_dependencia}', '${dataTemp.id_unidad_responsable}', '${data["id_eje"]}', '${data["id_programa"]}', '${linAcc}', '${dataTemp.orden_concepto}', '${dataTemp.is_indicador_mensual}', '0'); \n`
+                    }
+                });
+
+                Utils.guardarArchivos('public/importExcel/noticiaAdministrativa/pbr/sql/migracion2024CasosEspeciales.sql', query);
+
+
+                response.status(200).json({ data: excelData });
+
+            }
+            getData();
+        } catch (error) {
+            console.log(error);
+            response.status(400).json({ error: error });
         }
     }
 }
